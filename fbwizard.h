@@ -6,6 +6,7 @@
 #include "fileselectpage.h"
 #include "intropage.h"
 #include "parsepage.h"
+#include <QDebug>
 
 
 
@@ -21,6 +22,9 @@ public:
 
 private slots:
     void runParser(QString filename);
+
+private:
+    QDateTime minDateTime, maxDateTime;
 
 };
 
