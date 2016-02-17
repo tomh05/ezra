@@ -13,21 +13,25 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QCryptographicHash>
+#include <QThread>
 
 
 
 class MessagesParser : public QObject
 {
     Q_OBJECT
+    QThread messagesParserThread;
 public:
     explicit MessagesParser(QObject *parent = 0);
 
-    void parseFile(QString filename, QDateTime _minDateTime, QDateTime _maxDateTime);
+
 
 signals:
+    void finishedParsing(QJsonDocument doc);
+    void updateProgress(QString,int);
 
 public slots:
-
+    void parseFile(QString filename, QDateTime _minDateTime, QDateTime _maxDateTime);
 private slots:
     void onLoadFinished(bool status);
 

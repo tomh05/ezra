@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/r">
+        <file>coot_pro.asc</file>
+    </qresource>
+</RCC>

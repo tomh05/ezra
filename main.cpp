@@ -9,10 +9,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.addLibraryPath("/usr/local/lib/qca-qt5/");
 
     //MessagesParser * messagesParser = new MessagesParser;
 
-    FbWizard fbWizard();
+    FbWizard fbWizard;
     fbWizard.show();
 
     return a.exec();

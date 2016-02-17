@@ -3,23 +3,33 @@
 
 #include <QObject>
 #include <QIODevice>
-#include <QtCrypto>
+//#include <QtCrypto>
 #include <QDebug>
 #include <QFile>
+#include <QCoreApplication>
+#include "botan.h"
 
-class encryptor : public QObject
+using namespace Botan;
+
+class Encryptor : public QObject
 {
     Q_OBJECT
 public:
-    explicit encryptor(QObject *parent = 0);
-    void encrypt(QString string);
+    explicit Encryptor(QObject *parent = 0);
+
 
 signals:
+    void finishedEncrypting(QString result);
 
 public slots:
+    void encrypt(QString string);
 
 private:
-    QCA::PGPKey pubKey;
+    //QCA::PGPKey pubKey;
+    SecureVector<byte> mSalt;
+    QString mPassword;
+    QString hash(QString data);
+
 
 
 };

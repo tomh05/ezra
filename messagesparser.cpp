@@ -22,7 +22,7 @@ void MessagesParser::parseFile(QString filename,QDateTime _minDateTime, QDateTim
     page = new QWebPage();
     frame = page->mainFrame();
     frame->load(QUrl::fromLocalFile(filename));
-
+    emit updateProgress("Loading File...", 0);
     connect( frame,SIGNAL(loadFinished(bool)),this,SLOT(onLoadFinished(bool)));
 
 }
@@ -34,13 +34,14 @@ void MessagesParser::onLoadFinished(bool status) {
     }
 
     QWebElement docEl = frame->documentElement();
-    qDebug() <<"loaded page...";
     QWebElementCollection threads = docEl.findAll("div.contents div.thread");
     qDebug()<< threads.count() << " threads found.";
 
 
-
-    foreach (QWebElement thread,threads) {
+    QWebElementCollection::iterator ti = threads.begin();
+    while (ti != threads.end()) {
+        QWebElement thread = *ti;
+        ++ti;
         //qDebug()<<"Got a thread:";
         QJsonArray jsonMessages = processThread(thread);
 
@@ -71,14 +72,12 @@ void MessagesParser::onLoadFinished(bool status) {
             jsonThreads.append(jsonThread);
         }
 
+        float percentage = 100.0 * (ti-threads.begin()) / threads.count();
+        emit updateProgress("Analysing messages", percentage);
     }
-    // iterate over
 
     QJsonDocument doc(jsonThreads);
-
-    qDebug() << doc.toJson(QJsonDocument::Indented);
-    qDebug()<< " Finished parsing";
-
+    emit finishedParsing(doc);
 
 }
 QJsonArray MessagesParser::processThread(QWebElement thread) {

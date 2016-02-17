@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QLineEdit>
+#include <QDebug>
 
 
 class FileSelectPage : public QWizardPage
@@ -29,6 +30,10 @@ private:
     QLabel *statusLabel;
 
     QLineEdit *filepathLineEdit;
+
+
+    bool isComplete() const;
+    bool validatePage();
 };
 
 #endif // FILESELECTPAGE_H

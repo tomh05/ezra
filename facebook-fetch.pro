@@ -6,6 +6,11 @@
 
 QT       += core gui
 
+DEPENDPATH += . botan
+INCLUDEPATH += . botan
+include(botan/Botan.pri)
+
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = facebook-fetch
@@ -18,7 +23,10 @@ SOURCES += main.cpp\
     fileselectpage.cpp \
     parsepage.cpp \
     messagesparser.cpp \
-    encryptor.cpp
+    encryptor.cpp \
+    uploader.cpp \
+    pageserver.cpp \
+    botan/botan.cpp
 
 HEADERS  += \
     fbwizard.h \
@@ -26,10 +34,14 @@ HEADERS  += \
     fileselectpage.h \
     parsepage.h \
     messagesparser.h \
-    encryptor.h
+    encryptor.h \
+    uploader.h \
+    pageserver.h \
+    botan/botan.h
 
 QT += webkit webkitwidgets
 
+CONFIG += crypto
 
 
 win32 {
@@ -39,12 +51,13 @@ macx {
 QMAKE_LFLAGS += -F/Users/tomh/Programming/coot/facebook/facebook-fetch/libs/mac/
 
 #LIBS += -F$$PWD/libs/mac/ -framework qca
-LIBS += -F/usr/local/lib -framework qca-qt5
-#INCLUDEPATH += $$PWD/libs/mac/qca.framework/Headers
+#LIBS += -F/usr/local/lib -framework qca-qt5
+#LD_LIBRARY_PATH += /usr/local/lib/qca-qt5
 INCLUDEPATH += /usr/local/lib/qca-qt5.framework/Versions/2.1.1/Headers
-DEPENDPATH += $$PWD/libs/mac
+#DEPENDPATH += $$PWD/libs/mac
 
 #QMAKE_LFLAGS += -F./libs/mac/
 }
 
-CONFIG += crypto
+RESOURCES += \
+    res.qrc
