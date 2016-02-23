@@ -17,12 +17,14 @@ FbWizard::FbWizard(QWidget *parent)
     connect(encryptor, SIGNAL(finishedEncrypting(QString)), this, SLOT(onFinishedEncrypting(QString)));
     encryptorThread.start();
 
-    uploader = new Uploader;
+    /*
+     uploader = new Uploader;
     uploader->moveToThread(&uploaderThread);
     connect(&uploaderThread,SIGNAL(finished()),uploader,SLOT(deleteLater()));
     connect(this, SIGNAL(upload(QString)), uploader, SLOT(upload(QString)));
     connect(uploader, SIGNAL(finishedUploading(QString)), this, SLOT(onFinishedUploading(QString)));
     uploaderThread.start();
+    */
 
 
 
@@ -74,7 +76,7 @@ void FbWizard::onFinishedEncrypting(QString encryptedString)
 {
     qDebug()<<"Finished encrypting";
     qDebug()<< encryptedString;
-    emit upload(encryptedString);
+    //emit upload(encryptedString);
 }
 
 void FbWizard::onFinishedUploading(QString result)

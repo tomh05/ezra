@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QIODevice>
-#include <QtCrypto>
+//#include <QtCrypto>
 #include <QDebug>
 #include <QFile>
 #include <QCoreApplication>
 #include <QDir>
 #include <QProcess>
+#include <QStandardPaths>
 //#include "botan.h"
 
 //using namespace Botan;
@@ -25,16 +26,20 @@ signals:
 
 public slots:
     void encrypt(QString string);
-
 private slots:
-    void response();
+    void loadedKeys(int exitCode,QProcess::ExitStatus status);
+    void encrypted(int exitCode);
+
+
 
 private:
-    QCA::PGPKey pubKey;
-    QProcess *myProcess;
+    //QCA::PGPKey pubKey;
+    QProcess *loadProcess, *encryptProcess;
     //SecureVector<byte> mSalt;
     //QString mPassword;
     //QString hash(QString data);
+    QString tempPath;
+    QFile plainFile;
 
 
 

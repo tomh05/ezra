@@ -75,7 +75,6 @@ void Encryptor::encrypt(QString string)
         Pipe pipe(get_cipher("AES-256/CBC/PKCS7", mKey, mIV,ENCRYPTION),new Base64_Encoder);
         pipe.process_msg(string.toStdString());
         QString value = QString::fromStdString(pipe.read_all_as_string(0));
-        emit finishedEncrypting(value);
     }
     catch(...)
     {
@@ -119,76 +118,91 @@ void Encryptor::encrypt(QString string)
     // copy public key file to temp dir
     QFile pubkey(":/r/coot_pro.asc");
 
-    QString tempPath = QDir::tempPath();
+    tempPath = QDir::tempPath();
     qDebug()<<tempPath;
 
-    QFile::copy(":/r/coot_pro.asc",tempPath+"/coot_pro.asc");
+    QFile::copy(":/r/pubring.gpg",tempPath+"/pubring.gpg");
 
     // Write extracted data to temp dir
-    QFile plainFile(tempPath+"/plain.txt");
+    plainFile.setFileName(tempPath+"/plain.txt");
     plainFile.open(QFile::WriteOnly | QFile::Text);
     plainFile.write(string.toUtf8());
     plainFile.flush();
     plainFile.close();
 
-    // Call PGP to encrypt it
 
     QString program = "gpg2";
-    QStringList arguments;
-    arguments << "--homedir" << tempPath;
-    arguments << "--recipient" << "0x2EEF71E3";
-    arguments << "--armor";
-    arguments << "--output" << tempPath + "/encrypted.txt.gpg";
-    arguments << "--batch";
-    arguments << "--trust-model" << "always";
-    arguments << "--encrypt" << tempPath + "/plain.txt";
+    QStringList loadArguments;
+    loadArguments << "--import" << tempPath + "/pubring.gpg";
 
-    myProcess = new QProcess();
-    qDebug() << program << arguments;
-    connect(myProcess,SIGNAL(readyReadStandardOutput()),this,SLOT(response()));
-    connect(myProcess,SIGNAL(readyReadStandardError()),this,SLOT(response()));
-    connect(myProcess,SIGNAL(started()),this,SLOT(response()));
-
-    myProcess->setProgram(program);
-    myProcess->setArguments(arguments);
-    qDebug() << myProcess->arguments();
-    qDebug() << myProcess->program();
-    myProcess->execute(program,arguments);
-    qDebug() << myProcess->errorString();
-
-
-            //run:  gpg2 --homedir . --recipient 0x2EEF71E3 --armor --output wasteout.txt.gpg --batch --trust-model always --encrypt waste.txt
+    loadProcess = new QProcess();
+    connect(loadProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(loadedKeys(int,QProcess::ExitStatus)));
+    loadProcess->start(program,loadArguments);
+    //run:  gpg2 --homedir . --recipient 0x2EEF71E3 --armor --output wasteout.txt.gpg --batch --trust-model always --encrypt waste.txt
     // Delete  original file
 
-    plainFile.remove();
 
-
-
-    // Load in encrypted file
-
-    //if(!pubkey.open(QFile::ReadOnly | QFile::Text))
-
-    /*
-
-*/
-    //QDir::tempPath()
-
-    qDebug()<<"Out!";
 
     //emit finishedEncrypting(cryptString);
 
 
 }
 
-void Encryptor::response()
+void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
 {
-    qDebug()<< "resp";
-    qDebug()<< myProcess->readAllStandardOutput();
-    qDebug()<< myProcess->readAllStandardError();
+
+    qDebug()<< "loaded key, status "<<exitCode<<loadProcess->readAll();
+    qDebug()<<loadProcess->readAllStandardOutput();
+    qDebug()<< "er";
+    qDebug()<<loadProcess->readAllStandardError();
+
+    qDebug()<< "about to encrypt";
+    // Encrypt it
+    QString program = "gpg2";
+    QStringList encryptArguments;
+    encryptArguments << "--homedir" << tempPath;
+    encryptArguments << "--recipient" << "0x2EEF71E3";
+    encryptArguments << "--armor";
+    encryptArguments << "--output" << tempPath + "/encrypted.txt.gpg";
+    encryptArguments << "--batch";
+    encryptArguments << "--trust-model" << "always";
+    encryptArguments << "--encrypt" << tempPath + "/plain.txt";
+
+    encryptProcess = new QProcess();
+
+    connect(encryptProcess,SIGNAL(finished(int)),this,SLOT(encrypted(int)));
+    encryptProcess->start(program,encryptArguments);
+
 
 }
 
+void Encryptor::encrypted(int exitCode)
+{
 
+    qDebug()<< "encryption"<<exitCode<< encryptProcess->readAll();
+    qDebug()<<encryptProcess->readAllStandardOutput();
+    qDebug()<< "er";
+    qDebug()<<encryptProcess->readAllStandardError();
+    plainFile.remove();
+
+
+    //QFile::copy(tempPath+"/encrypted.txt.gpg",QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)+"/encrypted.txt.gpg");
+
+    // now load file back in to program and delete it
+    QFile encryptedFile(tempPath + "/encrypted.txt.gpg");
+    if(!encryptedFile.open(QFile::ReadOnly | QFile::Text))
+        qDebug()<<"Can't open file!";
+
+    QString encryptedString = encryptedFile.readAll();
+    qDebug()<<"file"<<encryptedString;
+    encryptedFile.flush();
+    encryptedFile.close();
+    encryptedFile.remove();
+
+
+    emit finishedEncrypting(encryptedString);
+
+}
 
 
 /*QString Encryptor::hash(QString data)

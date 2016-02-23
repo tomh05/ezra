@@ -3,5 +3,6 @@
         <file>coot_pro.asc</file>
         <file>transfer.key</file>
         <file>ca.pem</file>
+        <file>pubring.gpg</file>
     </qresource>
 </RCC>

@@ -6,9 +6,9 @@
 
 QT       += core gui
 
-DEPENDPATH += . botan
-INCLUDEPATH += . botan
-include(botan/Botan.pri)
+#DEPENDPATH += . botan
+#INCLUDEPATH += . botan
+#include(botan/Botan.pri)
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -26,7 +26,7 @@ SOURCES += main.cpp\
     encryptor.cpp \
     uploader.cpp \
     pageserver.cpp \
-    botan/botan.cpp \
+    #botan/botan.cpp \
     explainerpage.cpp \
     whitelist.cpp
 
@@ -39,19 +39,19 @@ HEADERS  += \
     encryptor.h \
     uploader.h \
     pageserver.h \
-    botan/botan.h \
+    #botan/botan.h \
     explainerpage.h \
     whitelist.h
 
 QT += webkit webkitwidgets
 
-CONFIG += crypto
+#CONFIG += crypto
 
 
-win32 {
- LIBS += -lqca-gnupg
-}
-macx {
+#win32 {
+# LIBS += -lqca-gnupg
+#}
+#macx {
 
 #LIBS += -F$$PWD/libs/mac/ -framework qca
 #LIBS += -F/usr/local/lib -framework qca-qt5
@@ -60,7 +60,7 @@ macx {
 #DEPENDPATH += $$PWD/libs/mac
 
 #QMAKE_LFLAGS += -F./libs/mac/
-}
+#}
 
 RESOURCES += \
     res.qrc
