@@ -173,9 +173,14 @@ QString MessagesParser::hash(QString input)
 
 QString MessagesParser::obfuscate(QString input)
 {
-    return "*****" + input + "****";
+    int len = input.length();
+    QString outputString = "";
+    for (int i=0;i<len;i++) {
+        outputString.append('*');
+    }
+    return outputString;
 }
 
 bool MessagesParser::isOnWhitelist(QString candidate) {
-    return (candidate=="Tom Howe");
+    return whitelist.searchFor(candidate);
 }

@@ -14,7 +14,7 @@
 #include <QJsonDocument>
 #include <QCryptographicHash>
 #include <QThread>
-
+#include "whitelist.h"
 
 
 class MessagesParser : public QObject
@@ -51,6 +51,8 @@ private:
     QDateTime minDateTime, maxDateTime;
 
     QJsonArray jsonThreads;
+
+    Whitelist whitelist;
 
 
 

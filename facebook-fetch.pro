@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     encryptor.cpp \
     uploader.cpp \
     pageserver.cpp \
-    botan/botan.cpp
+    botan/botan.cpp \
+    explainerpage.cpp \
+    whitelist.cpp
 
 HEADERS  += \
     fbwizard.h \
@@ -37,7 +39,9 @@ HEADERS  += \
     encryptor.h \
     uploader.h \
     pageserver.h \
-    botan/botan.h
+    botan/botan.h \
+    explainerpage.h \
+    whitelist.h
 
 QT += webkit webkitwidgets
 
@@ -48,12 +52,11 @@ win32 {
  LIBS += -lqca-gnupg
 }
 macx {
-QMAKE_LFLAGS += -F/Users/tomh/Programming/coot/facebook/facebook-fetch/libs/mac/
 
 #LIBS += -F$$PWD/libs/mac/ -framework qca
 #LIBS += -F/usr/local/lib -framework qca-qt5
 #LD_LIBRARY_PATH += /usr/local/lib/qca-qt5
-INCLUDEPATH += /usr/local/lib/qca-qt5.framework/Versions/2.1.1/Headers
+#INCLUDEPATH += /usr/local/lib/qca-qt5.framework/Versions/2.1.1/Headers
 #DEPENDPATH += $$PWD/libs/mac
 
 #QMAKE_LFLAGS += -F./libs/mac/

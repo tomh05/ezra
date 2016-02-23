@@ -3,6 +3,15 @@
 
 #include <QObject>
 #include <QDebug>
+//#include <QSslSocket>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QUrlQuery>
+#include <QFile>
+#include <QHttpPart>
+
+
 
 class Uploader : public QObject
 {
@@ -15,6 +24,11 @@ signals:
 
 public slots:
     void upload(QString string);
+
+private slots:
+    void replyFinished(QNetworkReply* reply);
+    void slotError(QNetworkReply::NetworkError ne);
+    void slotSslErrors(QList<QSslError> es);
 };
 
 #endif // UPLOADER_H

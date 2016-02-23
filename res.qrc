@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/r">
         <file>coot_pro.asc</file>
+        <file>transfer.key</file>
+        <file>ca.pem</file>
     </qresource>
 </RCC>

@@ -5,6 +5,7 @@
 #include "messagesparser.h"
 #include "fileselectpage.h"
 #include "intropage.h"
+#include "explainerpage.h"
 #include "parsepage.h"
 #include <QDebug>
 #include <QJsonDocument>
@@ -17,7 +18,7 @@ class FbWizard : public QWizard
     Q_OBJECT
 public:
     FbWizard(QWidget *parent = 0);
-    enum {Page_Intro, Page_FileSelect, Page_Parse};
+    enum {Page_Intro,Page_Explainer, Page_FileSelect, Page_Parse};
 
     MessagesParser * messagesParser;
     Encryptor * encryptor;

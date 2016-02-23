@@ -35,15 +35,19 @@ FbWizard::FbWizard(QWidget *parent)
     fileSelectPage = new FileSelectPage;
     parsePage = new ParsePage;
     setPage(Page_Intro, new IntroPage);
+    setPage(Page_Explainer, new ExplainerPage);
     setPage(Page_FileSelect, fileSelectPage);
     setPage(Page_Parse, parsePage);
     setStartId(Page_Intro);
+
+    //emit upload("Test String!");
+    emit encrypt("hi messagesJsonDoc.toJson()");
 
     connect(fileSelectPage,SIGNAL(launchParser(QString)),this,SLOT(runParser(QString)));
 #ifndef Q_OS_MAC
     setWizardStyle(ModernStyle);
 #endif
-    setOption(HaveHelpButton, true);
+    setOption(HaveHelpButton, false);
     //setPixmap(QWizard::LogoPixmap, QPixmap(":/images/logo.png"));
     //connect(this, SIGNAL(helpRequested()), this, SLOT(showHelp()));
     setWindowTitle(tr("COOT FB"));
@@ -62,6 +66,7 @@ void FbWizard::onFinishedParsing(QJsonDocument doc)
 {
     qDebug()<<"Finished parsing";
     messagesJsonDoc = doc;
+    qDebug()<<doc.toJson();
     emit encrypt(QString(messagesJsonDoc.toJson()));
 }
 
