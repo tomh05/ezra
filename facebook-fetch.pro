@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     pageserver.cpp \
     #botan/botan.cpp \
     explainerpage.cpp \
-    whitelist.cpp
+    whitelist.cpp \
+    resultspage.cpp
 
 HEADERS  += \
     fbwizard.h \
@@ -41,7 +42,8 @@ HEADERS  += \
     pageserver.h \
     #botan/botan.h \
     explainerpage.h \
-    whitelist.h
+    whitelist.h \
+    resultspage.h
 
 QT += webkit webkitwidgets
 

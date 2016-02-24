@@ -4,5 +4,9 @@
         <file>transfer.key</file>
         <file>ca.pem</file>
         <file>pubring.gpg</file>
+        <file>images/archive.png</file>
+        <file>images/email.png</file>
+        <file>images/settings-view.png</file>
+        <file>images/download.png</file>
     </qresource>
 </RCC>

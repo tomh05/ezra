@@ -115,11 +115,12 @@ void Encryptor::encrypt(QString string)
     */
 
 
+    qDebug() <<"Encrypting " << string << "...";
     // copy public key file to temp dir
     QFile pubkey(":/r/coot_pro.asc");
 
     tempPath = QDir::tempPath();
-    qDebug()<<tempPath;
+    qDebug()<<"Temp path:" << tempPath;
 
     QFile::copy(":/r/pubring.gpg",tempPath+"/pubring.gpg");
 
@@ -130,14 +131,19 @@ void Encryptor::encrypt(QString string)
     plainFile.flush();
     plainFile.close();
 
+    emit updateProgress("Encrypting messages", 25);
 
     QString program = "gpg2";
     QStringList loadArguments;
+    loadArguments << "--homedir" << tempPath;
     loadArguments << "--import" << tempPath + "/pubring.gpg";
 
     loadProcess = new QProcess();
     connect(loadProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(loadedKeys(int,QProcess::ExitStatus)));
+    connect(loadProcess,SIGNAL(error(QProcess::ProcessError)),this,SLOT(error(QProcess::ProcessError)));
+    loadProcess->setWorkingDirectory(tempPath);
     loadProcess->start(program,loadArguments);
+
     //run:  gpg2 --homedir . --recipient 0x2EEF71E3 --armor --output wasteout.txt.gpg --batch --trust-model always --encrypt waste.txt
     // Delete  original file
 
@@ -151,11 +157,11 @@ void Encryptor::encrypt(QString string)
 void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
 {
 
-    qDebug()<< "loaded key, status "<<exitCode<<loadProcess->readAll();
-    qDebug()<<loadProcess->readAllStandardOutput();
-    qDebug()<< "er";
-    qDebug()<<loadProcess->readAllStandardError();
+    qDebug()<< "loaded key, status "<<exitCode;
+    qDebug()<< "stdout:"<<loadProcess->readAllStandardOutput();
+    qDebug()<<"stderr:" << loadProcess->readAllStandardError();
 
+    emit updateProgress("Encrypting messages", 50);
     qDebug()<< "about to encrypt";
     // Encrypt it
     QString program = "gpg2";
@@ -179,10 +185,8 @@ void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
 void Encryptor::encrypted(int exitCode)
 {
 
-    qDebug()<< "encryption"<<exitCode<< encryptProcess->readAll();
-    qDebug()<<encryptProcess->readAllStandardOutput();
-    qDebug()<< "er";
-    qDebug()<<encryptProcess->readAllStandardError();
+    emit updateProgress("Encrypting messages", 75);
+    qDebug()<< "encryption finished with code "<<exitCode<< encryptProcess->readAll();
     plainFile.remove();
 
 
@@ -201,6 +205,21 @@ void Encryptor::encrypted(int exitCode)
 
 
     emit finishedEncrypting(encryptedString);
+
+}
+
+void Encryptor::response()
+{
+    qDebug()<<"response";
+
+}
+
+void Encryptor::error(QProcess::ProcessError e)
+{
+     qDebug()<<"error" << e;
+    if (e==QProcess::FailedToStart) {
+            qDebug() << "could not start program "<< loadProcess->program() << loadProcess->arguments();
+    }
 
 }
 

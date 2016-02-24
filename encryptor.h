@@ -23,12 +23,15 @@ public:
 
 signals:
     void finishedEncrypting(QString result);
+    void updateProgress(QString,int);
 
 public slots:
     void encrypt(QString string);
 private slots:
     void loadedKeys(int exitCode,QProcess::ExitStatus status);
     void encrypted(int exitCode);
+    void response();
+    void error(QProcess::ProcessError e);
 
 
 
