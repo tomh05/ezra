@@ -8,10 +8,12 @@ FileSelectPage::FileSelectPage()
 
 
 
-#ifdef Q_OS_MAC
-    qDebug()<<"mac;";
     QPixmap image;
+#ifdef Q_OS_MAC
     image.load(":/r/images/open-mac.png");
+#else
+    image.load(":/r/images/open-win.png");
+#endif
     image.setDevicePixelRatio(devicePixelRatio());
 
     QLabel * imageLabel = new QLabel();
@@ -25,7 +27,6 @@ FileSelectPage::FileSelectPage()
     layout->addWidget(label);
 
 
-#endif
 
     filepathLineEdit = new QLineEdit();
     filepathLineEdit->setDisabled(true);

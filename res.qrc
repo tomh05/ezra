@@ -10,5 +10,7 @@
         <file>images/download.png</file>
         <file>images/extract-mac.png</file>
         <file>images/open-mac.png</file>
+        <file>images/extract-win.png</file>
+        <file>images/open-win.png</file>
     </qresource>
 </RCC>
