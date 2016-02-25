@@ -8,6 +8,7 @@
 #include "whitelist.h"
 #include <QLabel>
 #include <QListWidget>
+#include <QCheckBox>
 
 class CheckDetailsPage : public QWizardPage
 {

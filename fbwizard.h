@@ -38,7 +38,7 @@ public:
     QWebPage * qWebPage;
 
 signals:
-    void parseFile(QString filename, Whitelist * _whitelist);
+    void parseFile(QString filename, Whitelist * _whitelist,bool _countYear);
     void encrypt(QString string);
     void upload(QString string);
     void checkPgp();

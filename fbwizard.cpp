@@ -12,7 +12,7 @@ FbWizard::FbWizard(QWidget *parent)
     messagesParser = new MessagesParser;
     //messagesParser->moveToThread(&messagesParserThread);
     //connect(&messagesParserThread,SIGNAL(finished()),messagesParser,SLOT(deleteLater()));
-    connect(this, SIGNAL(parseFile(QString,Whitelist*)), messagesParser, SLOT(parseFile(QString,Whitelist*)));
+    connect(this, SIGNAL(parseFile(QString,Whitelist*,bool)), messagesParser, SLOT(parseFile(QString,Whitelist*,bool)));
     connect(messagesParser, SIGNAL(finishedParsing(QJsonDocument)), this, SLOT(onFinishedParsing(QJsonDocument)));
     //messagesParserThread.start();
 
@@ -87,7 +87,7 @@ FbWizard::FbWizard(QWidget *parent)
 
 void FbWizard::runParser(QString filename)
 {
-    emit parseFile(filename,whitelist);
+    emit parseFile(filename,whitelist,field("countyear").toBool());
     QList<QWizard::WizardButton> button_layout;
     button_layout << QWizard::HelpButton << QWizard::Stretch;
     setButtonLayout(button_layout);

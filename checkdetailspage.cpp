@@ -6,7 +6,7 @@ CheckDetailsPage::CheckDetailsPage(Whitelist * whitelist)
 
     QGridLayout *layout = new QGridLayout;
 
-    QLabel *label = new QLabel("This app will only analyse data involved in the trial period.If the details below are incorrect, contact us before using this app.");
+    QLabel *label = new QLabel("Please check the details below are correct:");
     label->setWordWrap(true);
     //label->setMargin(10);
     layout->addWidget(label,0,0,1,2);
@@ -48,6 +48,17 @@ CheckDetailsPage::CheckDetailsPage(Whitelist * whitelist)
     list->addItem(whitelistItem);
     }
     layout->addWidget(list,5,1,1,1);
+
+    QLabel *checkboxLabel = new QLabel("<b>Extra Analysis (Optional)</b>");
+    QCheckBox * checkbox = new QCheckBox("Count how many messages I have sent in the last year");
+    checkbox->setChecked(true);
+
+    registerField("countyear",checkbox);
+    QLabel *checkboxLabel2 = new QLabel("<em>(This will involve counting your messages only, we will not read any extra messages if you check this.)</em>");
+    checkboxLabel2->setWordWrap(true);
+    layout->addWidget(checkboxLabel,6,0,1,2);
+    layout->addWidget(checkbox,7,0,1,2);
+    layout->addWidget(checkboxLabel2,8,0,1,2);
 
 
 

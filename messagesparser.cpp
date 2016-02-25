@@ -7,8 +7,9 @@ MessagesParser::MessagesParser(QObject *parent) : QObject(parent)
 }
 
 
-void MessagesParser::parseFile(QString filename,Whitelist* _whitelist)
+void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool countYear)
 {
+    qDebug()<<"countyear"<<countYear;
     whitelist = _whitelist;
     minDateTime = whitelist->getStartDate();
     maxDateTime = whitelist->getEndDate();
@@ -21,6 +22,8 @@ void MessagesParser::parseFile(QString filename,Whitelist* _whitelist)
             qDebug() << "Can't read file: "<< qPrintable(messagesFile.errorString())<< endl;
     }
     */
+
+    qApp->processEvents();
         qDebug() <<"loading page...";
         page = new QWebPage();
         frame = page->mainFrame();
@@ -36,6 +39,7 @@ void MessagesParser::onLoadFinished(bool status) {
                 return;
         }
 
+                qApp->processEvents();
         QWebElement docEl = frame->documentElement();
         QWebElementCollection threads = docEl.findAll("div.contents div.thread");
         qDebug()<< threads.count() << " threads found.";
@@ -73,6 +77,7 @@ void MessagesParser::onLoadFinished(bool status) {
 
                 float percentage = 100.0 * (ti-threads.begin()) / threads.count();
                 emit updateProgress("Analysing messages", percentage);
+                qApp->processEvents();
         }
 
         QJsonDocument doc(jsonThreads);

@@ -13,6 +13,7 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QCryptographicHash>
+#include <QApplication>
 #include <QThread>
 #include "whitelist.h"
 
@@ -31,7 +32,7 @@ signals:
     void updateProgress(QString,int);
 
 public slots:
-    void parseFile(QString filename, Whitelist* whitelist);
+    void parseFile(QString filename, Whitelist* whitelist, bool countYear);
 private slots:
     void onLoadFinished(bool status);
 
