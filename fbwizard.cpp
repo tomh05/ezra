@@ -63,7 +63,7 @@ FbWizard::FbWizard(QWidget *parent)
 #ifdef Q_OS_MAC
     setPage(Page_GetFacebookDump5, new ExplainerPage("Unzip the file","<h3>Step 5</h3> <p>Find the zip file you have downloaded and double click it to unzip it into a folder.</p>",":/r/images/extract-mac.png"));
 #else
-    setPage(Page_GetFacebookDump5, new ExplainerPage("Unzip the file","<h3>Step 5</h3> <p>Find the zip file you have downloaded, right-click and choose " and double click it to unzip it into a folder.</p>",":/r/images/extract-win.png"));
+    setPage(Page_GetFacebookDump5, new ExplainerPage("Unzip the file","<h3>Step 5</h3> <p>Find the zip file you have downloaded, right-click and choose 'Extract All' and follow instructions to unzip it into a folder.</p>",":/r/images/extract-win.png"));
 #endif
     setPage(Page_FileSelect, fileSelectPage);
     setPage(Page_Parse, parsePage);
