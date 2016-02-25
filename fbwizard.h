@@ -11,7 +11,9 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include "encryptor.h"
+#include "whitelist.h"
 #include "uploader.h"
+#include "checkdetailspage.h"
 
 
 class FbWizard : public QWizard
@@ -19,8 +21,8 @@ class FbWizard : public QWizard
     Q_OBJECT
 public:
     FbWizard(QWidget *parent = 0);
-    enum {Page_Intro,Page_Explainer,Page_GetFacebookDump1, Page_GetFacebookDump2,
-          Page_GetFacebookDump3, Page_GetFacebookDump4, Page_FileSelect, Page_Parse, Page_Results, Page_Thanks};
+    enum {Page_Intro,Page_How,Page_CheckDetails,Page_Explainer,Page_GetFacebookDump1, Page_GetFacebookDump2,
+          Page_GetFacebookDump3, Page_GetFacebookDump4, Page_GetFacebookDump5, Page_FileSelect, Page_Parse, Page_Results, Page_Thanks};
 
     MessagesParser * messagesParser;
     Encryptor * encryptor;
@@ -29,9 +31,10 @@ public:
     FileSelectPage* fileSelectPage;
     ParsePage* parsePage;
     ResultsPage* resultsPage;
+    Whitelist* whitelist;
 
 signals:
-    void parseFile(QString filename, QDateTime minDateTime, QDateTime maxDateTime);
+    void parseFile(QString filename, Whitelist * _whitelist);
     void encrypt(QString string);
     void upload(QString string);
 
@@ -46,6 +49,7 @@ private:
     QDateTime minDateTime, maxDateTime;
     QThread messagesParserThread, encryptorThread, uploaderThread;
     QJsonDocument messagesJsonDoc;
+
 
 };
 

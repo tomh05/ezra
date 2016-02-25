@@ -22,9 +22,10 @@ ExplainerPage::ExplainerPage(QString title, QString text, QString imagePath)
     if (!imagePath.isEmpty()) {
     QPixmap image;
     image.load(imagePath);
+    image.setDevicePixelRatio(devicePixelRatio());
 
     QLabel * imageLabel = new QLabel();
-    imageLabel->setPixmap(image.scaled(400,400,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    imageLabel->setPixmap(image.scaled(800,600,Qt::KeepAspectRatio,Qt::SmoothTransformation));
     // set a scaled pixmap to a w x h window keeping its aspect ratio
     layout->addWidget(imageLabel);
     }

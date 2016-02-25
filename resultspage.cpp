@@ -18,8 +18,8 @@ ResultsPage::ResultsPage()
     layout->addWidget(text);
 
     QPushButton *saveButton = new QPushButton("Save my Encrypted Data");
-    connect(saveButton,SIGNAL(clicked(bool)),this,SLOT(launchFilePicker()));
     layout->addWidget(saveButton);
+    connect(saveButton,SIGNAL(clicked(bool)),this,SLOT(launchFilePicker()));
 
     setLayout(layout);
 
@@ -28,20 +28,41 @@ ResultsPage::ResultsPage()
 
 void ResultsPage::setText(QString str)
 {
-    text->setText(str);
+    resultsData = str;
+    text->setText(resultsData);
 
 }
 
 void ResultsPage::launchFilePicker() {
+    qDebug()<<"launched";
+    QString username = "username-to-fill-in";
+    QString savePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)+ "/" +username + "-encrypted.txt";
 
-    QString filepath = QFileDialog::getSaveFileName(this, "Save Messages File", "/Users/tomh/Downloads", "Facebook Message File (*.html *.htm)");
+    filepath = QFileDialog::getSaveFileName(this, "Save your data", savePath, "Facebook Message File (*.txt)");
+    qDebug()<<filepath;
     if (filepath != "") {
-    //emit completeChanged();
+        //if (!filepath.endsWith(".encrypted.txt"))
+        //    filepath += ".encrypted.txt";
     //statusLabel->setText("File selected");
     //filepathLineEdit->setText(messagesFilepath);
+    QFile outFile(filepath);
+    if(!outFile.open(QFile::WriteOnly | QFile::Text))
+        qDebug()<<"Can't open file!";
+
+    outFile.write(resultsData.toUtf8());
+    outFile.close();
+
+    emit completeChanged();
     }
     //parseButton->setEnabled(true);
 
 
 }
+bool ResultsPage::isComplete() const
+{
+    qDebug()<<"isComplete called";
+    //emit completeChanged();
+    return (filepath != "");
+}
+
 

@@ -31,7 +31,7 @@ signals:
     void updateProgress(QString,int);
 
 public slots:
-    void parseFile(QString filename, QDateTime _minDateTime, QDateTime _maxDateTime);
+    void parseFile(QString filename, Whitelist* whitelist);
 private slots:
     void onLoadFinished(bool status);
 
@@ -52,7 +52,7 @@ private:
 
     QJsonArray jsonThreads;
 
-    Whitelist whitelist;
+    Whitelist * whitelist;
 
 
 

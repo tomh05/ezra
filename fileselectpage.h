@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QLineEdit>
 #include <QDebug>
+#include <QPixmap>
 
 
 class FileSelectPage : public QWizardPage

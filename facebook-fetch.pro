@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     #botan/botan.cpp \
     explainerpage.cpp \
     whitelist.cpp \
-    resultspage.cpp
+    resultspage.cpp \
+    checkdetailspage.cpp
 
 HEADERS  += \
     fbwizard.h \
@@ -43,7 +44,11 @@ HEADERS  += \
     #botan/botan.h \
     explainerpage.h \
     whitelist.h \
-    resultspage.h
+    resultspage.h \
+    checkdetailspage.h
+
+
+DEFINES += TOM
 
 QT += webkit webkitwidgets
 
@@ -66,3 +71,6 @@ QT += webkit webkitwidgets
 
 RESOURCES += \
     res.qrc
+
+DISTFILES += \
+    explanation.htm

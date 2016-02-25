@@ -2,15 +2,31 @@
 
 FileSelectPage::FileSelectPage()
 {
-    setTitle("Select a file");
-
-    QLabel *label = new QLabel("Select a file");
-    label->setWordWrap(true);
+    setTitle("Load messages file");
 
     QVBoxLayout *layout = new QVBoxLayout;
+
+
+
+#ifdef Q_OS_MAC
+    qDebug()<<"mac;";
+    QPixmap image;
+    image.load(":/r/images/open-mac.png");
+    image.setDevicePixelRatio(devicePixelRatio());
+
+    QLabel * imageLabel = new QLabel();
+    imageLabel->setPixmap(image.scaled(800,600,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    // set a scaled pixmap to a w x h window keeping its aspect ratio
+    layout->addWidget(imageLabel);
+
+
+    QLabel *label = new QLabel("Press the button below and select the messages file."
+                               " It will be inside the <em>html</em> folder in the Facebook archive you downloaded.");
+    label->setWordWrap(true);
     layout->addWidget(label);
 
 
+#endif
 
     filepathLineEdit = new QLineEdit();
     filepathLineEdit->setDisabled(true);
@@ -40,10 +56,10 @@ FileSelectPage::FileSelectPage()
 
 void FileSelectPage::launchFilePicker() {
 
-    messagesFilepath = QFileDialog::getOpenFileName(this, "Open Messages File", "/Users/tomh/Downloads", "Facebook Message File (*.html *.htm)");
+    messagesFilepath = QFileDialog::getOpenFileName(this, "Open Messages File", "/Users/tomh/Downloads", "Facebook Message File (messages.htm)");
     if (messagesFilepath != "") {
     emit completeChanged();
-    statusLabel->setText("File selected");
+    statusLabel->setText("<span style='color:#0A0'> Great! Press next to begin analysing your data...</span>");
     filepathLineEdit->setText(messagesFilepath);
     }
     //parseButton->setEnabled(true);

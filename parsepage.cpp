@@ -5,6 +5,9 @@ ParsePage::ParsePage()
     doneParsing = false;
     setTitle("Parsing message...");
     qDebug()<<"Constructor for page"<<endl;
+    QLabel * introLabel = new QLabel("This process may take a few minutes.");
+    introLabel->setWordWrap(true);
+
     statusLabel = new QLabel("");
     statusLabel->setWordWrap(true);
 
@@ -12,6 +15,7 @@ ParsePage::ParsePage()
 
 
     QVBoxLayout *layout = new QVBoxLayout;
+    layout->addWidget(introLabel);
     layout->addWidget(statusLabel);
     layout->addWidget(progressBar);
 

@@ -147,11 +147,6 @@ void Encryptor::encrypt(QString string)
     //run:  gpg2 --homedir . --recipient 0x2EEF71E3 --armor --output wasteout.txt.gpg --batch --trust-model always --encrypt waste.txt
     // Delete  original file
 
-
-
-    //emit finishedEncrypting(cryptString);
-
-
 }
 
 void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)

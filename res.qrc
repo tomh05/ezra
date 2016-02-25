@@ -8,5 +8,7 @@
         <file>images/email.png</file>
         <file>images/settings-view.png</file>
         <file>images/download.png</file>
+        <file>images/extract-mac.png</file>
+        <file>images/open-mac.png</file>
     </qresource>
 </RCC>
