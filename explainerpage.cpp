@@ -1,8 +1,8 @@
 #include "explainerpage.h"
 
-ExplainerPage::ExplainerPage(QString title, QString text, QString imagePath)
+ExplainerPage::ExplainerPage(QString title, QString _text, QString imagePath)
 {
-    qDebug()<< title << text << imagePath;
+    text = _text;
 
     if (!title.isEmpty()) {
     setTitle(title);
@@ -10,8 +10,8 @@ ExplainerPage::ExplainerPage(QString title, QString text, QString imagePath)
 
     QVBoxLayout *layout = new QVBoxLayout;
 
-    if (!text.isEmpty()) {
-    QLabel *label = new QLabel(text);
+    if (!_text.isEmpty()) {
+    QLabel *label = new QLabel(_text);
     label->setOpenExternalLinks(true);
     label->setWordWrap(true);
     label->setMargin(10);
@@ -25,10 +25,15 @@ ExplainerPage::ExplainerPage(QString title, QString text, QString imagePath)
     image.setDevicePixelRatio(devicePixelRatio());
 
     QLabel * imageLabel = new QLabel();
-    imageLabel->setPixmap(image.scaled(800,600,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    imageLabel->setPixmap(image.scaled(400*devicePixelRatio(),350*devicePixelRatio(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
     // set a scaled pixmap to a w x h window keeping its aspect ratio
     layout->addWidget(imageLabel);
     }
 
     setLayout(layout);
+}
+
+void ExplainerPage::setText(const QString &value)
+{
+    text = value;
 }

@@ -3,6 +3,12 @@
 FbWizard::FbWizard(QWidget *parent)
     : QWizard(parent)
 {
+    whitelist = new Whitelist;
+    fileSelectPage = new FileSelectPage;
+    parsePage = new ParsePage;
+    resultsPage = new ResultsPage;
+    introPage = new IntroPage;
+
     messagesParser = new MessagesParser;
     messagesParser->moveToThread(&messagesParserThread);
     connect(&messagesParserThread,SIGNAL(finished()),messagesParser,SLOT(deleteLater()));
@@ -13,9 +19,13 @@ FbWizard::FbWizard(QWidget *parent)
     encryptor = new Encryptor;
     encryptor->moveToThread(&encryptorThread);
     connect(&encryptorThread,SIGNAL(finished()),encryptor,SLOT(deleteLater()));
+    connect(this, SIGNAL(checkPgp()), encryptor, SLOT(checkPgp()));
     connect(this, SIGNAL(encrypt(QString)), encryptor, SLOT(encrypt(QString)));
+    connect(encryptor, SIGNAL(pgpFound(bool)), introPage, SLOT(pgpFound(bool)));
     connect(encryptor, SIGNAL(finishedEncrypting(QString)), this, SLOT(onFinishedEncrypting(QString)));
     encryptorThread.start();
+
+    emit checkPgp();
 
     /*
      uploader = new Uploader;
@@ -27,11 +37,7 @@ FbWizard::FbWizard(QWidget *parent)
     */
 
 
-    whitelist = new Whitelist;
-    fileSelectPage = new FileSelectPage;
-    parsePage = new ParsePage;
-    resultsPage = new ResultsPage;
-    setPage(Page_Intro, new IntroPage);
+    setPage(Page_Intro, introPage);
     setPage(Page_How, new ExplainerPage("How this app works",
                                         "<p>We want to be transparent about how we are handling your data, so here is the process the app uses. (Don't worry, we'll guide you through each step!). </p>"
                                         "<ol><li><p>You download an archive of your Facebook data</p></li>"

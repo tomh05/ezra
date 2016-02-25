@@ -12,7 +12,11 @@ class ExplainerPage : public QWizardPage
 {
     Q_OBJECT
 public:
-    ExplainerPage(QString title = "", QString text = "", QString imagePath = "");
+    ExplainerPage(QString title = "", QString _text = "", QString imagePath = "");
+    void setText(const QString &value);
+
+private:
+    QString text;
 };
 
 #endif // EXPLAINERPAGE_H

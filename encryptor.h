@@ -24,20 +24,24 @@ public:
 signals:
     void finishedEncrypting(QString result);
     void updateProgress(QString,int);
+    void pgpFound(bool wasFound);
 
 public slots:
     void encrypt(QString string);
+    void checkPgp();
 private slots:
     void loadedKeys(int exitCode,QProcess::ExitStatus status);
+    void checkFinished(int exitCode,QProcess::ExitStatus status);
     void encrypted(int exitCode);
     void response();
     void error(QProcess::ProcessError e);
+    void checkError(QProcess::ProcessError e);
 
 
 
 private:
     //QCA::PGPKey pubKey;
-    QProcess *loadProcess, *encryptProcess;
+    QProcess *loadProcess, *encryptProcess, *checkProcess;
     //SecureVector<byte> mSalt;
     //QString mPassword;
     //QString hash(QString data);

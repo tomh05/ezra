@@ -32,11 +32,13 @@ public:
     ParsePage* parsePage;
     ResultsPage* resultsPage;
     Whitelist* whitelist;
+    IntroPage* introPage;
 
 signals:
     void parseFile(QString filename, Whitelist * _whitelist);
     void encrypt(QString string);
     void upload(QString string);
+    void checkPgp();
 
 private slots:
     void runParser(QString filename);

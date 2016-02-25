@@ -149,6 +149,20 @@ void Encryptor::encrypt(QString string)
 
 }
 
+void Encryptor::checkPgp()
+{
+    QString program = "gpg2";
+    QStringList args;
+    args << "--version";
+
+    checkProcess = new QProcess();
+    connect(checkProcess,SIGNAL(finished(int,QProcess::ExitStatus)),this,SLOT(checkFinished(int,QProcess::ExitStatus)));
+    connect(checkProcess,SIGNAL(error(QProcess::ProcessError)),this,SLOT(checkError(QProcess::ProcessError)));
+    checkProcess->start(program,args);
+
+
+}
+
 void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
 {
 
@@ -175,6 +189,11 @@ void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
     encryptProcess->start(program,encryptArguments);
 
 
+}
+
+void Encryptor::checkFinished(int exitCode, QProcess::ExitStatus status)
+{
+    emit pgpFound(true);
 }
 
 void Encryptor::encrypted(int exitCode)
@@ -216,6 +235,11 @@ void Encryptor::error(QProcess::ProcessError e)
             qDebug() << "could not start program "<< loadProcess->program() << loadProcess->arguments();
     }
 
+}
+
+void Encryptor::checkError(QProcess::ProcessError e)
+{
+    emit pgpFound(false);
 }
 
 

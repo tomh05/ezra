@@ -15,10 +15,9 @@ FileSelectPage::FileSelectPage()
     image.setDevicePixelRatio(devicePixelRatio());
 
     QLabel * imageLabel = new QLabel();
-    imageLabel->setPixmap(image.scaled(800,600,Qt::KeepAspectRatio,Qt::SmoothTransformation));
+    imageLabel->setPixmap(image.scaled(400*devicePixelRatio(),300*devicePixelRatio(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
     // set a scaled pixmap to a w x h window keeping its aspect ratio
     layout->addWidget(imageLabel);
-
 
     QLabel *label = new QLabel("Press the button below and select the messages file."
                                " It will be inside the <em>html</em> folder in the Facebook archive you downloaded.");

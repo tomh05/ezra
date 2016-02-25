@@ -14,6 +14,12 @@ public:
     IntroPage();
 
 
+public slots:
+    void pgpFound(bool wasFound);
+private:
+    bool isComplete() const;
+    bool pgpWasFound;
+    QLabel * label;
 };
 
 #endif // INTROPAGE_H
