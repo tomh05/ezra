@@ -10,11 +10,11 @@ FbWizard::FbWizard(QWidget *parent)
     introPage = new IntroPage;
 
     messagesParser = new MessagesParser;
-    messagesParser->moveToThread(&messagesParserThread);
-    connect(&messagesParserThread,SIGNAL(finished()),messagesParser,SLOT(deleteLater()));
+    //messagesParser->moveToThread(&messagesParserThread);
+    //connect(&messagesParserThread,SIGNAL(finished()),messagesParser,SLOT(deleteLater()));
     connect(this, SIGNAL(parseFile(QString,Whitelist*)), messagesParser, SLOT(parseFile(QString,Whitelist*)));
     connect(messagesParser, SIGNAL(finishedParsing(QJsonDocument)), this, SLOT(onFinishedParsing(QJsonDocument)));
-    messagesParserThread.start();
+    //messagesParserThread.start();
 
     encryptor = new Encryptor;
     encryptor->moveToThread(&encryptorThread);

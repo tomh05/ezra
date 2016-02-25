@@ -10,6 +10,7 @@
 #include "resultspage.h"
 #include <QDebug>
 #include <QJsonDocument>
+#include <QWebPage>
 #include "encryptor.h"
 #include "whitelist.h"
 #include "uploader.h"
@@ -33,6 +34,8 @@ public:
     ResultsPage* resultsPage;
     Whitelist* whitelist;
     IntroPage* introPage;
+
+    QWebPage * qWebPage;
 
 signals:
     void parseFile(QString filename, Whitelist * _whitelist);

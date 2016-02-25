@@ -54,6 +54,8 @@ private:
 
     Whitelist * whitelist;
 
+    QWebElement docEl;
+
 
 
 
