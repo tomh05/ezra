@@ -131,9 +131,13 @@ void Encryptor::encrypt(QString string)
     plainFile.flush();
     plainFile.close();
 
-    emit updateProgress("Encrypting messages", 25);
+    emit updateProgress("Encrypting messages", 25,0);
 
+#ifdef Q_OS_MAC
+    QString program = "/usr/local/bin/gpg2";
+#else
     QString program = "gpg2";
+#endif
     QStringList loadArguments;
     loadArguments << "--homedir" << tempPath;
     loadArguments << "--import" << tempPath + "/pubring.gpg";
@@ -151,7 +155,11 @@ void Encryptor::encrypt(QString string)
 
 void Encryptor::checkPgp()
 {
+#ifdef Q_OS_MAC
+    QString program = "/usr/local/bin/gpg2";
+#else
     QString program = "gpg2";
+#endif
     QStringList args;
     args << "--version";
 
@@ -170,10 +178,14 @@ void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
     qDebug()<< "stdout:"<<loadProcess->readAllStandardOutput();
     qDebug()<<"stderr:" << loadProcess->readAllStandardError();
 
-    emit updateProgress("Encrypting messages", 50);
+    emit updateProgress("Encrypting messages", 50,0);
     qDebug()<< "about to encrypt";
     // Encrypt it
+#ifdef Q_OS_MAC
+    QString program = "/usr/local/bin/gpg2";
+#else
     QString program = "gpg2";
+#endif
     QStringList encryptArguments;
     encryptArguments << "--homedir" << tempPath;
     encryptArguments << "--recipient" << "0x2EEF71E3";
@@ -199,7 +211,7 @@ void Encryptor::checkFinished(int exitCode, QProcess::ExitStatus status)
 void Encryptor::encrypted(int exitCode)
 {
 
-    emit updateProgress("Encrypting messages", 75);
+    emit updateProgress("Encrypting messages", 75,0);
     qDebug()<< "encryption finished with code "<<exitCode<< encryptProcess->readAll();
     plainFile.remove();
 

@@ -17,6 +17,12 @@ class ResultsPage : public QWizardPage
 public:
     ResultsPage();
     void setText(QString str);
+    void setTotals(int _sent, int _received);
+
+    void setUsername(QString value);
+
+signals:
+    void saveComplete();
 
 private slots:
     void launchFilePicker();
@@ -26,6 +32,8 @@ private:
     QString filepath;
     bool isComplete() const;
     QString resultsData;
+    QLabel* resultsLabel;
+    QString username;
 
 
 };

@@ -50,7 +50,7 @@ CheckDetailsPage::CheckDetailsPage(Whitelist * whitelist)
     layout->addWidget(list,5,1,1,1);
 
     QLabel *checkboxLabel = new QLabel("<b>Extra Analysis (Optional)</b>");
-    QCheckBox * checkbox = new QCheckBox("Count how many messages I have sent in the last year");
+    QCheckBox * checkbox = new QCheckBox("Calculate and tell me how many messages I sent and received in 2015");
     checkbox->setChecked(true);
 
     registerField("countyear",checkbox);

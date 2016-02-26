@@ -7,12 +7,17 @@ MessagesParser::MessagesParser(QObject *parent) : QObject(parent)
 }
 
 
-void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool countYear)
+void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool _countYear)
 {
+    countYear = _countYear;
     qDebug()<<"countyear"<<countYear;
     whitelist = _whitelist;
+    sentMessages = 0;
+    receivedMessages = 0;
     minDateTime = whitelist->getStartDate();
     maxDateTime = whitelist->getEndDate();
+    startYear = QDateTime::fromString("2015-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
+    endYear = QDateTime::fromString("2016-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
     qDebug()<<minDateTime.toString("dd-MM-yy hh:mm:ss");
     qDebug()<<maxDateTime.toString("dd-MM-yy hh:mm:ss");
 
@@ -28,7 +33,7 @@ void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool cou
         page = new QWebPage();
         frame = page->mainFrame();
         frame->load(QUrl::fromLocalFile(filename));
-        emit updateProgress("Loading File...", 0);
+        emit updateProgress("Loading File...", 0,0);
         connect( frame,SIGNAL(loadFinished(bool)),this,SLOT(onLoadFinished(bool)));
 
 }
@@ -43,6 +48,8 @@ void MessagesParser::onLoadFinished(bool status) {
         QWebElement docEl = frame->documentElement();
         QWebElementCollection threads = docEl.findAll("div.contents div.thread");
         qDebug()<< threads.count() << " threads found.";
+
+
 
 
         QWebElementCollection::iterator ti = threads.begin();
@@ -75,12 +82,15 @@ void MessagesParser::onLoadFinished(bool status) {
                         jsonThreads.append(jsonThread);
                 }
 
-                float percentage = 100.0 * (ti-threads.begin()) / threads.count();
-                emit updateProgress("Analysing messages", percentage);
+                mainPercentage = 100.0 * (ti-threads.begin()) / threads.count();
+                emit updateProgress("Analysing messages", mainPercentage,subPercentage);
                 qApp->processEvents();
         }
 
-        QJsonDocument doc(jsonThreads);
+        json.insert("threads",jsonThreads);
+        json.insert("sent",sentMessages);
+        json.insert("received",receivedMessages);
+        QJsonDocument doc(json);
         emit finishedParsing(doc);
 
 }
@@ -96,6 +106,11 @@ QJsonArray MessagesParser::processThread(QWebElement thread) {
                 int result = processMessage(message,jsonMessages);
                 if (result == FINISHED_THREAD) return jsonMessages;
                 ++mi;
+
+                subPercentage = 100.0 * (mi-messages.begin()) / messages.count();
+                emit updateProgress("Analysing messages", mainPercentage,subPercentage);
+                qApp->processEvents();
+
         }
 
         return jsonMessages;
@@ -131,11 +146,29 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 }
         }
 
-        if (dateTime<whitelist->getStartDate()) {
-                return FINISHED_THREAD;
+        qDebug()<<"countyear is " << countYear;
+        if (countYear) {
+                if (dateTime<startYear) return FINISHED_THREAD;
+
+                qDebug()<<"dt"<<dateTime.toString("dd-MM-yy hh:mm:ss");
+                qDebug()<<"sy"<<startYear.toString("dd-MM-yy hh:mm:ss");
+                // if it's within 2015-16,
+                if (dateTime<endYear) {
+                        // work out if incoming/outgoing and add to totals
+                    if (user == whitelist->getUsername()) {
+                        sentMessages +=1;
+                    } else {
+                        receivedMessages +=1;
+                    }
+
+                }
+        } else {
+                if (dateTime<whitelist->getStartDate()) return FINISHED_THREAD;
+                qDebug()<<"returning"<<dateTime;
         }
 
-        if (dateTime < whitelist->getEndDate()) {
+
+        if (dateTime > whitelist->getStartDate() && dateTime < whitelist->getEndDate()) {
                 QString messageContent = "";
                 QWebElement nextSib = message.nextSibling();
                 while (nextSib.localName() == "p") {
@@ -187,7 +220,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
 QString MessagesParser::hash(QString input)
 {
 
-        QString response = input +"_"+ QString(QCryptographicHash::hash(input.toUtf8(),QCryptographicHash::Sha1).toHex());
+        QString response = QString(QCryptographicHash::hash(input.toUtf8(),QCryptographicHash::Sha1).toHex());
         return response;
 
 }

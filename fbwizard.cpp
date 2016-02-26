@@ -9,6 +9,9 @@ FbWizard::FbWizard(QWidget *parent)
     resultsPage = new ResultsPage;
     introPage = new IntroPage(whitelist);
 
+
+    connect(resultsPage,SIGNAL(saveComplete()),this,SLOT(onSaveComplete()));
+
     messagesParser = new MessagesParser;
     //messagesParser->moveToThread(&messagesParserThread);
     //connect(&messagesParserThread,SIGNAL(finished()),messagesParser,SLOT(deleteLater()));
@@ -84,7 +87,7 @@ FbWizard::FbWizard(QWidget *parent)
     setPage(Page_FileSelect, fileSelectPage);
     setPage(Page_Parse, parsePage);
     setPage(Page_Results, resultsPage);
-    setPage(Page_Thanks, new ExplainerPage("Thanks","<h3>Thank you!</h3> <p>Yay! </p>"));
+    setPage(Page_Thanks, new ExplainerPage("Thanks","<h3>All saved!</h3><p> Please email the encryped file to matilda.hay@bbc.co.uk, or as an attachment on Facebook messenger. Then you're all done!</p> <b>Thanks!</b>"));
 
     setStartId(Page_Intro);
 
@@ -107,15 +110,17 @@ void FbWizard::runParser(QString filename)
     QList<QWizard::WizardButton> button_layout;
     button_layout << QWizard::HelpButton << QWizard::Stretch;
     setButtonLayout(button_layout);
-    connect(messagesParser,SIGNAL(updateProgress(QString,int)),parsePage,SLOT(updateStatus(QString,int)));
+    connect(messagesParser,SIGNAL(updateProgress(QString,int,int)),parsePage,SLOT(updateStatus(QString,int,int)));
 }
 
 void FbWizard::onFinishedParsing(QJsonDocument doc)
 {
     qDebug()<<"Finished parsing";
     messagesJsonDoc = doc;
+    sent = doc.object()["sent"].toInt();
+    received = doc.object()["received"].toInt();
     qDebug()<<doc.toJson();
-    connect(encryptor,SIGNAL(updateProgress(QString,int)),parsePage,SLOT(updateStatus(QString,int)));
+    connect(encryptor,SIGNAL(updateProgress(QString,int,int)),parsePage,SLOT(updateStatus(QString,int,int)));
     emit encrypt(QString(messagesJsonDoc.toJson()));
 }
 
@@ -128,6 +133,8 @@ void FbWizard::onFinishedEncrypting(QString encryptedString)
     button_layout << QWizard::HelpButton << QWizard::Stretch << QWizard::NextButton;
     setButtonLayout(button_layout);
     resultsPage->setText(encryptedString);
+    resultsPage->setTotals(sent,received);
+    resultsPage->setUsername(whitelist->getUsername().replace(" ",""));
     this->next();
 }
 
@@ -135,4 +142,9 @@ void FbWizard::onFinishedUploading(QString result)
 {
     qDebug()<<"Finished uploading";
     qDebug()<< result;
+}
+
+void FbWizard::onSaveComplete()
+{
+    next();
 }

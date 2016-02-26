@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QFile>
-//#include <QXmlStreamReader>
 #include <QDebug>
 #include <QWebPage>
 #include <QWebFrame>
@@ -29,10 +28,10 @@ public:
 
 signals:
     void finishedParsing(QJsonDocument doc);
-    void updateProgress(QString,int);
+    void updateProgress(QString,int,int);
 
 public slots:
-    void parseFile(QString filename, Whitelist* whitelist, bool countYear);
+    void parseFile(QString filename, Whitelist* whitelist, bool _countYear);
 private slots:
     void onLoadFinished(bool status);
 
@@ -50,12 +49,19 @@ private:
     QWebPage * page;
     QWebFrame * frame;
     QDateTime minDateTime, maxDateTime;
+    QDateTime startYear, endYear;
 
+    QJsonObject json;
     QJsonArray jsonThreads;
 
     Whitelist * whitelist;
 
     QWebElement docEl;
+    bool countYear;
+    int sentMessages;
+    int receivedMessages;
+
+    float mainPercentage,subPercentage;
 
 
 

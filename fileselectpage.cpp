@@ -63,12 +63,16 @@ FileSelectPage::FileSelectPage()
 
 void FileSelectPage::launchFilePicker() {
 
-    messagesFilepath = QFileDialog::getOpenFileName(this, "Open Messages File", "/Users/tomh/Downloads", "Facebook Message File (messages.htm)");
-    if (messagesFilepath != "") {
-    emit completeChanged();
-    statusLabel->setText("<span style='color:#0A0'> Great! Press next to begin analysing your data...</span>");
+    QString defaultPath = QStandardPaths::writableLocation(QStandardPaths::DownloadLocation);
+    messagesFilepath = QFileDialog::getOpenFileName(this, "Open Messages File", defaultPath, "Facebook Message File (messages.htm)");
     filepathLineEdit->setText(messagesFilepath);
+    if (messagesFilepath != "") {
+    statusLabel->setText("<span style='color:#0A0'> Great! Press next to begin analysing your data...</span>");
+    } else {
+
+    statusLabel->setText("");
     }
+    emit completeChanged();
     //parseButton->setEnabled(true);
 
 

@@ -6,11 +6,6 @@
 
 QT       += core gui
 
-#DEPENDPATH += . botan
-#INCLUDEPATH += . botan
-#include(botan/Botan.pri)
-
-
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = facebook-fetch
@@ -48,11 +43,16 @@ HEADERS  += \
     checkdetailspage.h
 
 
-DEFINES += TOM
+DEFINES += MATILDA
 
 QT += webkit webkitwidgets
 
-#CONFIG += crypto
+macx{
+ICON = images/macicon.icns
+}
+win32 {
+RC_FILE = myapp.rc
+}
 
 
 #win32 {
@@ -73,4 +73,5 @@ RESOURCES += \
     res.qrc
 
 DISTFILES += \
-    explanation.htm
+    explanation.htm \
+    myfile.rc

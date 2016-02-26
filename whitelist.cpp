@@ -9,14 +9,38 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     username = "Tom Howe";
     isFullVersion = true;
     startDateString = "2016-01-01 00:00:00";
-    endDateString = "2016-02-01 00:00:00";
+    endDateString = "2016-02-01 23:59:59";
     whitelist.append("Sam Bason");
     whitelist.append("Peter Taylour");
     qDebug()<<"Tom selected";
 #elif ROSS
-
-    whitelist.append("Tom Howe");
+    username = "Ross Kirby";
+    isFullVersion = true;
+    startDateString = "2016-01-31 00:00:00";
+    endDateString = "2016-02-20 23:59:59";
+    whitelist.append("Alice Chen");
+    whitelist.append("James Millward");
+    whitelist.append("Dan Robertson");
+    whitelist.append("Tom Harris");
+    whitelist.append("Tom Coysh");
+    whitelist.append("Nick Chamberlain");
+    qDebug()<<"Ross selected";
+#elif EILEEN
+    username = "Eileen Inkson";
+    isFullVersion = false;
+    startDateString = "2016-02-01 00:00:00";
+    endDateString = "2016-02-10 23:59:59";
+#elif MATILDA
+    username = "Matilda Blanche";
+    isFullVersion = true;
+    startDateString = "2016-02-01 00:00:00";
+    endDateString = "2016-02-07 23:59:59";
+    whitelist.append("Seb Dunnett");
+    whitelist.append("Will Hünter");
+    whitelist.append("Pete Brook");
+    whitelist.append("Yas Min");
 #else
+    qDebug()<<"NO WHITELIST SELECTED!";
 #endif
 
 

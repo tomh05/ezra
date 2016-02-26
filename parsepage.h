@@ -15,14 +15,14 @@ public:
     ParsePage();
 
 public slots:
-    void updateStatus(QString status,int percent);
+    void updateStatus(QString status,int percent,int subPercent);
 
 private:
     bool isComplete() const;
 
     bool doneParsing;
-    QLabel *statusLabel;
-    QProgressBar *progressBar;
+    QLabel *statusLabel, *label2,*label3;
+    QProgressBar *progressBar,*subProgressBar;
 };
 
 #endif // PARSEPAGE_H

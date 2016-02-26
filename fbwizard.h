@@ -49,11 +49,13 @@ private slots:
     void onFinishedParsing(QJsonDocument doc);
     void onFinishedEncrypting(QString result);
     void onFinishedUploading(QString result);
+    void onSaveComplete();
 
 private:
     QDateTime minDateTime, maxDateTime;
     QThread messagesParserThread, encryptorThread, uploaderThread;
     QJsonDocument messagesJsonDoc;
+    int sent,received;
 
 
 };

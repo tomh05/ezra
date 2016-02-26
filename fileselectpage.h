@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QLineEdit>
+#include <QStandardPaths>
 #include <QDebug>
 #include <QPixmap>
 

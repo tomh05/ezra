@@ -2,8 +2,6 @@
 #define ENCRYPTOR_H
 
 #include <QObject>
-#include <QIODevice>
-//#include <QtCrypto>
 #include <QDebug>
 #include <QFile>
 #include <QCoreApplication>
@@ -23,7 +21,7 @@ public:
 
 signals:
     void finishedEncrypting(QString result);
-    void updateProgress(QString,int);
+    void updateProgress(QString,int,int);
     void pgpFound(bool wasFound);
 
 public slots:
