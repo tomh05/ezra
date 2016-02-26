@@ -5,13 +5,14 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include "whitelist.h"
 
 
 class IntroPage : public QWizardPage
 {
     Q_OBJECT
 public:
-    IntroPage();
+    IntroPage(Whitelist* wl);
 
 
 public slots:
@@ -20,6 +21,7 @@ private:
     bool isComplete() const;
     bool pgpWasFound;
     QLabel * label;
+    Whitelist* whitelist;
 };
 
 #endif // INTROPAGE_H

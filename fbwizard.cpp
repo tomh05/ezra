@@ -7,7 +7,7 @@ FbWizard::FbWizard(QWidget *parent)
     fileSelectPage = new FileSelectPage;
     parsePage = new ParsePage;
     resultsPage = new ResultsPage;
-    introPage = new IntroPage;
+    introPage = new IntroPage(whitelist);
 
     messagesParser = new MessagesParser;
     //messagesParser->moveToThread(&messagesParserThread);
@@ -45,20 +45,36 @@ FbWizard::FbWizard(QWidget *parent)
                                         "<li><p>The app analyses the file for data.</p></li>"
                                         "<li><p>You will be given an encrypted file of your data which you can email to us.</p></li>"
                                         "</ol>"
-                                        "<p>The app analyses the file for data that you have consented to us collecting. All messages that aren't part of the trial are ignored and not processed.</p>"));
+                                        "<p>All messages that aren't part of the trial are ignored and not processed.</p>"
+                                        ,":/r/images/process.png"));
     setPage(Page_CheckDetails, new CheckDetailsPage(whitelist));
+    if (whitelist->getIsFullVersion()) {
     setPage(Page_Explainer, new ExplainerPage("Our promise",
                                               "We promise to:"
-                                              "<ul><li>Only gather data from inside your trial period.</li></ul>"));
+                                              "<ul>"
+                                              "<li>Only gather data from inside your trial period.</li>"
+                                              "<li>Not store messages from anyone who wasn't in your whitelist</li>"
+                                              "<li>Not store the names of any of your friends who weren't in your whitelist.</li>"
+                                              "</ul>"));
+    } else {
+     setPage(Page_Explainer, new ExplainerPage("Our promise",
+                                              "We promise to:"
+                                              "<ul>"
+                                              "<li>Only gather data from inside your trial period.</li>"
+                                              "<li>Not read the content of any of your messages.</li>"
+                                              "<li>Not store the names of any of your friends.</li>"
+                                              "</ul>"));
+
+    }
     setPage(Page_GetFacebookDump1, new ExplainerPage("Getting hold of your Facebook data",
-                                                     "<h3>Step 1</h3> <p>Visit <a href='http://www.facebook.com/settings' >www.facebook.com/settings</a> in your web browser.</p><p> Click on <b>Download a copy of your facebook data</b>.</p>",":/r/images/settings-view.png"));
+                                                     "<h3>Step 1</h3> <p>Visit <a href='http://www.facebook.com/settings' >www.facebook.com/settings</a> in your web browser.</p><p> Click on <b>Download a copy</b> of your facebook data.</p>",":/r/images/settings-view.png"));
     setPage(Page_GetFacebookDump2, new ExplainerPage("Getting hold of your Facebook data",
                                                      "<h3>Step 2</h3> Click on <b>Start my Archive</b>. Enter your password when it asks.",
                                                      ":/r/images/archive.png"));
     setPage(Page_GetFacebookDump3, new ExplainerPage("Getting hold of your Facebook data",
-                                                     "<h3>Step 3</h3> <p>Facebook will start gathering your data, and send you an email when it is ready to download. This usually takes 10 minutes or so.</p><p> When the email arrives, click the link at the bottom.</p>",":/r/images/email.png"));
+                                                     "<h3>Step 3</h3> <p>Facebook will send you an email when your data is ready to download. You will have to wait 10 minutes or so.</p><p> When the email arrives, click the link in it.</p>",":/r/images/email.png"));
     setPage(Page_GetFacebookDump4, new ExplainerPage("Getting hold of your Facebook data",
-                                                     "<h3>Step 4</h3> <p> Click the green button to download your data.</p>",
+                                                     "<h3>Step 4</h3> <p> Click on <b>Download Archive</b>. Enter your password when it asks.</p>",
                                                      ":/r/images/download.png"));
 #ifdef Q_OS_MAC
     setPage(Page_GetFacebookDump5, new ExplainerPage("Unzip the file","<h3>Step 5</h3> <p>Find the zip file you have downloaded and double click it to unzip it into a folder.</p>",":/r/images/extract-mac.png"));

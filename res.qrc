@@ -12,5 +12,6 @@
         <file>images/open-mac.png</file>
         <file>images/extract-win.png</file>
         <file>images/open-win.png</file>
+        <file>images/process.png</file>
     </qresource>
 </RCC>
