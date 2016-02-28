@@ -39,6 +39,14 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     whitelist.append("Will Hünter");
     whitelist.append("Pete Brook");
     whitelist.append("Yas Min");
+#elif LOUISE
+    username = "Louise Coot";
+    isFullVersion = true;
+    startDateString = "2016-01-01 00:00:00";
+    endDateString = "2016-01-14 23:59:59";
+    whitelist.append("Matilda Coot");
+    whitelist.append("Ross Coot");
+#
 #else
     qDebug()<<"NO WHITELIST SELECTED!";
 #endif

@@ -43,7 +43,7 @@ HEADERS  += \
     checkdetailspage.h
 
 
-DEFINES += MATILDA
+DEFINES += LOUISE
 
 QT += webkit webkitwidgets
 
@@ -51,7 +51,8 @@ macx{
 ICON = images/macicon.icns
 }
 win32 {
-RC_FILE = myapp.rc
+RC_FILE = facebook-fetch.rc
+QMAKE_FLAGS += -static-libgcc
 }
 
 
