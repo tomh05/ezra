@@ -14,6 +14,7 @@
 #include <QCryptographicHash>
 #include <QApplication>
 #include <QThread>
+#include <QMessageBox>
 #include "whitelist.h"
 
 
@@ -42,6 +43,8 @@ private:
     bool isOnWhitelist(QString candidate);
     QString hash(QString input);
     QString obfuscate(QString input);
+    QDateTime parseDate(QString dateTimeString);
+    QStringList dateTimeFormats;
 
 
     enum {GOT_MESSAGE, NO_MESSAGE, FINISHED_THREAD};

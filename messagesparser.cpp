@@ -4,22 +4,31 @@ MessagesParser::MessagesParser(QObject *parent) : QObject(parent)
 {
 
 
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC'");
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+01'");
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC'");
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+01'");
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-01'");
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+02'");
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-01'");
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+02'");
+
 }
 
 
 void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool _countYear)
 {
-    countYear = _countYear;
-    qDebug()<<"countyear"<<countYear;
-    whitelist = _whitelist;
-    sentMessages = 0;
-    receivedMessages = 0;
-    minDateTime = whitelist->getStartDate();
-    maxDateTime = whitelist->getEndDate();
-    startYear = QDateTime::fromString("2015-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
-    endYear = QDateTime::fromString("2016-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
-    qDebug()<<minDateTime.toString("dd-MM-yy hh:mm:ss");
-    qDebug()<<maxDateTime.toString("dd-MM-yy hh:mm:ss");
+        countYear = _countYear;
+        qDebug()<<"countyear"<<countYear;
+        whitelist = _whitelist;
+        sentMessages = 0;
+        receivedMessages = 0;
+        minDateTime = whitelist->getStartDate();
+        maxDateTime = whitelist->getEndDate();
+        startYear = QDateTime::fromString("2015-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
+        endYear = QDateTime::fromString("2016-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
+        qDebug()<<minDateTime.toString("dd-MM-yy hh:mm:ss");
+        qDebug()<<maxDateTime.toString("dd-MM-yy hh:mm:ss");
 
         /*
     QFile messagesFile(filename);
@@ -28,7 +37,7 @@ void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool _co
     }
     */
 
-    qApp->processEvents();
+        qApp->processEvents();
         qDebug() <<"loading page...";
         page = new QWebPage();
         frame = page->mainFrame();
@@ -44,7 +53,7 @@ void MessagesParser::onLoadFinished(bool status) {
                 return;
         }
 
-                qApp->processEvents();
+        qApp->processEvents();
         QWebElement docEl = frame->documentElement();
         QWebElementCollection threads = docEl.findAll("div.contents div.thread");
         qDebug()<< threads.count() << " threads found.";
@@ -129,37 +138,29 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
 
         QString user = message.findFirst("span.user").toPlainText();
         QString dateTimeString = message.findFirst("span.meta").toPlainText();
-    qDebug()<<"process message from"<<user << dateTimeString;
+        //qDebug()<<"process message from"<<user << dateTimeString;
         //QString dateTimeFormat = "dddd, d MMMM yyyy' at 'hh:mm' UTC+01'";
 
 
-        QDateTime dateTime;
-        QString dateTimeFormat;
-        dateTimeFormat = "dddd, d MMMM yyyy' at 'hh:mm 'UTC'";
-        dateTime = QDateTime::fromString(dateTimeString,dateTimeFormat);
+        QDateTime dateTime = parseDate(dateTimeString);
         if (!dateTime.isValid()) {
-                dateTimeFormat = "dddd, d MMMM yyyy' at 'hh:mm' UTC+01'";
-                dateTime = QDateTime::fromString(dateTimeString,dateTimeFormat);
-                if (!dateTime.isValid()) {
-                        //qDebug() <<"invalid date '"<< dateTimeString <<"'";
-                        //break;
-                }
+        QMessageBox box;
+        box.setText("Sorry, this tool can't understand the date: \n\n" + dateTimeString + "\n\n\nPlease send a picture of this dialog box to us and we'll sort it out! Thanks.");
+        box.exec();
+        exit(EXIT_FAILURE);
         }
 
-        qDebug()<<"countyear is " << countYear;
         if (countYear) {
                 if (dateTime<startYear) return FINISHED_THREAD;
 
-                qDebug()<<"dt"<<dateTime.toString("dd-MM-yy hh:mm:ss");
-                qDebug()<<"sy"<<startYear.toString("dd-MM-yy hh:mm:ss");
                 // if it's within 2015-16,
                 if (dateTime<endYear) {
                         // work out if incoming/outgoing and add to totals
-                    if (user == whitelist->getUsername()) {
-                        sentMessages +=1;
-                    } else {
-                        receivedMessages +=1;
-                    }
+                        if (user == whitelist->getUsername()) {
+                                sentMessages +=1;
+                        } else {
+                                receivedMessages +=1;
+                        }
 
                 }
         } else {
@@ -236,7 +237,21 @@ QString MessagesParser::obfuscate(QString input)
 }
 
 bool MessagesParser::isOnWhitelist(QString candidate) {
-    bool result = whitelist->searchFor(candidate);
-    qDebug()<<"Checking whitelist for " << candidate << result;
+        bool result = whitelist->searchFor(candidate);
+        qDebug()<<"Checking whitelist for " << candidate << result;
         return result;
+}
+
+
+QDateTime MessagesParser::parseDate(QString dateTimeString) {
+        QDateTime dateTime;
+
+        foreach(const QString &format,dateTimeFormats) {
+                dateTime = QDateTime::fromString(dateTimeString,format);
+                if (dateTime.isValid()) return dateTime;
+        }
+
+
+
+        return QDateTime();
 }
