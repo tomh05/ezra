@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include "whitelist.h"
+#include <QTextEdit>
 
 
 class IntroPage : public QWizardPage
@@ -16,12 +17,13 @@ public:
 
 
 public slots:
-    void pgpFound(bool wasFound);
+    void pgpFound(bool wasFound,QString status);
 private:
     bool isComplete() const;
     bool pgpWasFound;
     QLabel * label;
     Whitelist* whitelist;
+    QTextEdit * textedit;
 };
 
 #endif // INTROPAGE_H

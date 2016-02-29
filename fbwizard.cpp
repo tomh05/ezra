@@ -24,7 +24,7 @@ FbWizard::FbWizard(QWidget *parent)
     connect(&encryptorThread,SIGNAL(finished()),encryptor,SLOT(deleteLater()));
     connect(this, SIGNAL(checkPgp()), encryptor, SLOT(checkPgp()));
     connect(this, SIGNAL(encrypt(QString)), encryptor, SLOT(encrypt(QString)));
-    connect(encryptor, SIGNAL(pgpFound(bool)), introPage, SLOT(pgpFound(bool)));
+    connect(encryptor, SIGNAL(pgpFound(bool,QString)), introPage, SLOT(pgpFound(bool,QString)));
     connect(encryptor, SIGNAL(finishedEncrypting(QString)), this, SLOT(onFinishedEncrypting(QString)));
     encryptorThread.start();
 

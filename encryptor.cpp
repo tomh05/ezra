@@ -134,7 +134,9 @@ void Encryptor::encrypt(QString string)
     emit updateProgress("Encrypting messages", 25,0);
 
 #ifdef Q_OS_MAC
-    QString program = "/usr/local/bin/gpg2";
+    //QString program = "/usr/local/bin/gpg2";
+    QString program = "/usr/local/MacGPG2/bin/gpg2";
+
 #else
     QString program = "gpg2";
 #endif
@@ -156,7 +158,8 @@ void Encryptor::encrypt(QString string)
 void Encryptor::checkPgp()
 {
 #ifdef Q_OS_MAC
-    QString program = "/usr/local/bin/gpg2";
+    //QString program = "/usr/local/bin/gpg2";
+    QString program = "/usr/local/MacGPG2/bin/gpg2";
 #else
     QString program = "gpg2";
 #endif
@@ -182,7 +185,9 @@ void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
     qDebug()<< "about to encrypt";
     // Encrypt it
 #ifdef Q_OS_MAC
-    QString program = "/usr/local/bin/gpg2";
+    //QString program = "/usr/local/bin/gpg2";
+    QString program = "/usr/local/MacGPG2/bin/gpg2";
+
 #else
     QString program = "gpg2";
 #endif
@@ -205,7 +210,7 @@ void Encryptor::loadedKeys(int exitCode,QProcess::ExitStatus status)
 
 void Encryptor::checkFinished(int exitCode, QProcess::ExitStatus status)
 {
-    emit pgpFound(true);
+    emit pgpFound(true,"");
 }
 
 void Encryptor::encrypted(int exitCode)
@@ -251,7 +256,9 @@ void Encryptor::error(QProcess::ProcessError e)
 
 void Encryptor::checkError(QProcess::ProcessError e)
 {
-    emit pgpFound(false);
+    QString estring = checkProcess->program() + ", error no " + QString::number(e) +"," + checkProcess->readAll();
+    qDebug()<<"check error" << e;
+    emit pgpFound(false,estring);
 }
 
 

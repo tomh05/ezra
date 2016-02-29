@@ -9,13 +9,19 @@ IntroPage::IntroPage(Whitelist *wl)
     label = new QLabel("Please wait, checking for PGP tool...");
     label->setWordWrap(true);
 
+
+    textedit = new QTextEdit();
+    textedit->setReadOnly(true);
+    textedit->hide();
+
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(label);
+    layout->addWidget(textedit);
 
     setLayout(layout);
 }
 
-void IntroPage::pgpFound(bool wasFound)
+void IntroPage::pgpFound(bool wasFound, QString status)
 {
     pgpWasFound = wasFound;
     if (pgpWasFound) {
@@ -29,7 +35,9 @@ void IntroPage::pgpFound(bool wasFound)
                         "");
     } else {
 
-        label->setText("Error: we couldn't find an installation of GnuPG.<br /><br /> It's needed to encrypt your data. Install GnuPG and then run this app again.");
+        label->setText("Error: we couldn't find an installation of GnuPG.<br /><br /> It's needed to encrypt your data. Install GnuPG and then run this app again. If you're still having problem, please email the text below to us and we'll look into it.");
+        textedit->setText(status);
+        textedit->show();
     }
     emit completeChanged();
 

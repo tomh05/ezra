@@ -22,7 +22,7 @@ public:
 signals:
     void finishedEncrypting(QString result);
     void updateProgress(QString,int,int);
-    void pgpFound(bool wasFound);
+    void pgpFound(bool wasFound,QString status);
 
 public slots:
     void encrypt(QString string);
