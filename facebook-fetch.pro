@@ -43,7 +43,7 @@ HEADERS  += \
     checkdetailspage.h
 
 
-DEFINES += ROSS
+DEFINES += BECKY
 
 QT += webkit webkitwidgets
 

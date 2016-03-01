@@ -52,6 +52,12 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     startDateString = "2016-02-01 00:00:00";
     endDateString = "2016-02-10 23:59:59";
     whitelist.append("Tom Howe");
+#elif BECKY
+    username = "Becky Skeggs";
+    isFullVersion = false;
+    startDateString = "2016-02-01 00:00:00";
+    endDateString = "2016-02-10 23:59:59";
+
 #else
     qDebug()<<"NO WHITELIST SELECTED!";
 #endif
