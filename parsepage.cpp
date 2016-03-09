@@ -1,11 +1,20 @@
 #include "parsepage.h"
 
-ParsePage::ParsePage()
+ParsePage::ParsePage(Whitelist * wl)
 {
     doneParsing = false;
-    setTitle("Parsing message...");
-    qDebug()<<"Constructor for page"<<endl;
-    QLabel * introLabel = new QLabel("This process may take a few minutes.");
+    setTitle("Message Selection...");
+    QLabel * introLabel;
+
+
+    if (wl->getIsFullVersion()) {
+    introLabel = new QLabel("Sit back and relax, this process may take a few minutes."
+                                     " The tool is selecting only the messages that you have consented to.");
+    } else {
+
+    introLabel = new QLabel("Sit back and relax, this process may take a few minutes."
+                                     " The tool is counting your messages.");
+    }
     introLabel->setWordWrap(true);
 
     statusLabel = new QLabel("");
@@ -13,7 +22,7 @@ ParsePage::ParsePage()
 
     label2 = new QLabel("<b>Total Progress</b>");
 
-    label3 = new QLabel("Current Thread");
+    label3 = new QLabel("Progress");
 
 
 
@@ -24,10 +33,10 @@ ParsePage::ParsePage()
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(introLabel);
     layout->addWidget(statusLabel);
-    layout->addWidget(label2);
-    layout->addWidget(progressBar);
     layout->addWidget(label3);
     layout->addWidget(subProgressBar);
+    layout->addWidget(label2);
+    layout->addWidget(progressBar);
 
     setLayout(layout);
 }
@@ -40,7 +49,7 @@ bool ParsePage::isComplete() const
 }
 
 void ParsePage::updateStatus(QString status, int percent, int subPercent) {
-    statusLabel->setText(status);
+    //statusLabel->setText(status);
     progressBar->setValue(percent);
     subProgressBar->setValue(subPercent);
 }

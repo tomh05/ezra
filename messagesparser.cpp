@@ -8,11 +8,17 @@ MessagesParser::MessagesParser(QObject *parent) : QObject(parent)
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+01'");
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC'");
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+01'");
+
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'h:mmap 'UTC'");
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'h:mmap 'UTC+01'");
+
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'h:mmap 'UTC'");
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'h:mmap 'UTC+01'");
+
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-01'");
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+02'");
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-01'");
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+02'");
-
 }
 
 
@@ -92,7 +98,7 @@ void MessagesParser::onLoadFinished(bool status) {
                 }
 
                 mainPercentage = 100.0 * (ti-threads.begin()) / threads.count();
-                emit updateProgress("Analysing messages", mainPercentage,subPercentage);
+                emit updateProgress("Analysing messages", mainPercentage,0);
                 qApp->processEvents();
         }
 
@@ -116,8 +122,12 @@ QJsonArray MessagesParser::processThread(QWebElement thread) {
                 if (result == FINISHED_THREAD) return jsonMessages;
                 ++mi;
 
+                if (messages.count()>300) {
                 subPercentage = 100.0 * (mi-messages.begin()) / messages.count();
                 emit updateProgress("Analysing messages", mainPercentage,subPercentage);
+                } else {
+                    emit updateProgress("Analysing messages", mainPercentage,0);
+                }
                 qApp->processEvents();
 
         }
@@ -165,7 +175,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 }
         } else {
                 if (dateTime<whitelist->getStartDate()) return FINISHED_THREAD;
-                qDebug()<<"returning"<<dateTime;
+                //qDebug()<<"returning"<<dateTime;
         }
 
 
@@ -178,7 +188,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 }
 
                 QString formattedDT = dateTime.toString("dd-MM-yy hh:mm:ss");
-                qDebug() << formattedDT << ": " << user <<": " << messageContent;
+                //qDebug() << formattedDT << ": " << user <<": " << messageContent;
 
 
                 QJsonObject jsonMessage;
@@ -248,7 +258,9 @@ QDateTime MessagesParser::parseDate(QString dateTimeString) {
 
         foreach(const QString &format,dateTimeFormats) {
                 dateTime = QDateTime::fromString(dateTimeString,format);
-                if (dateTime.isValid()) return dateTime;
+                if (dateTime.isValid()) {
+                    return dateTime;
+                }
         }
 
 

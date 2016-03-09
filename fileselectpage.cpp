@@ -4,29 +4,13 @@ FileSelectPage::FileSelectPage()
 {
     setTitle("Load messages file");
 
-    QVBoxLayout *layout = new QVBoxLayout;
+    QGridLayout *layout = new QGridLayout;
 
 
 
     QLabel *label = new QLabel("That's the hard bit over! We're now ready to process the messages file.");
     label->setWordWrap(true);
-    layout->addWidget(label);
-
-
-
-    filepathLineEdit = new QLineEdit();
-    filepathLineEdit->setDisabled(true);
-    layout->addWidget(filepathLineEdit);
-    //registerField("filepath*",filepathLineEdit);
-
-    QPushButton *selectFilesButton = new QPushButton("Select Messages File");
-    layout->addWidget(selectFilesButton);
-
-    QLabel *label2 = new QLabel("<p>Press the button above and select the messages file."
-                               " It will be in the folder you unzipped in the previous step, inside the <em>html</em> subfolder.</p>"
-                                "<p> When you've found it, your window should look something like this:</p>");
-    label2->setWordWrap(true);
-    layout->addWidget(label2);
+    layout->addWidget(label,0,0,1,2);
 
 
     QPixmap image;
@@ -40,14 +24,32 @@ FileSelectPage::FileSelectPage()
     QLabel * imageLabel = new QLabel();
     imageLabel->setPixmap(image.scaled(400*devicePixelRatio(),300*devicePixelRatio(),Qt::KeepAspectRatio,Qt::SmoothTransformation));
     // set a scaled pixmap to a w x h window keeping its aspect ratio
-    layout->addWidget(imageLabel);
+    layout->addWidget(imageLabel,1,0,1,2);
 
 
+
+    QLabel *label2 = new QLabel("<p>Press the button below and select the messages file."
+                               " It will be in the folder you unzipped in the previous step, inside the <em>html</em> subfolder.</p>"
+                                "<p> When you've found it, your window should look something like the image above.</p>");
+    label2->setWordWrap(true);
+    layout->addWidget(label2,2,0,1,2);
+
+
+
+
+    filepathLineEdit = new QLineEdit();
+    filepathLineEdit->setDisabled(true);
+    layout->addWidget(filepathLineEdit,3,0,1,1);
+    //registerField("filepath*",filepathLineEdit);
+
+    QPushButton *selectFilesButton = new QPushButton("Select Messages File");
+    selectFilesButton->setGeometry(50,50,100,30);
+    layout->addWidget(selectFilesButton,3,1,1,1);
 
     statusLabel = new QLabel("");
     statusLabel->setWordWrap(true);
 
-    layout->addWidget(statusLabel);
+    layout->addWidget(statusLabel,4,0,1,2);
 
     //parseButton = new QPushButton("Analyse the data!");
     //parseButton->setDisabled(true);
@@ -67,7 +69,11 @@ void FileSelectPage::launchFilePicker() {
     messagesFilepath = QFileDialog::getOpenFileName(this, "Open Messages File", defaultPath, "Facebook Message File (messages.htm)");
     filepathLineEdit->setText(messagesFilepath);
     if (messagesFilepath != "") {
-    statusLabel->setText("<span style='color:#0A0'> Great! Press next to begin analysing your data...</span>");
+#ifdef Q_OS_MAC
+    statusLabel->setText("<span style='color:#0A0'> Great! Press continue...</span>");
+#else
+    statusLabel->setText("<span style='color:#0A0'> Great! Press next...</span>");
+#endif
     } else {
 
     statusLabel->setText("");

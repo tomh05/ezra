@@ -22,7 +22,7 @@ class FbWizard : public QWizard
     Q_OBJECT
 public:
     FbWizard(QWidget *parent = 0);
-    enum {Page_Intro,Page_How,Page_CheckDetails,Page_Explainer,Page_GetFacebookDump1, Page_GetFacebookDump2,
+    enum {Page_Intro,/*Page_How,*/Page_CheckDetails,/*Page_Explainer,*/ Page_GetFacebookDump1, Page_GetFacebookDump2,
           Page_GetFacebookDump3, Page_GetFacebookDump4, Page_GetFacebookDump5, Page_FileSelect, Page_Parse, Page_Results, Page_Thanks};
 
     MessagesParser * messagesParser;

@@ -115,12 +115,12 @@ void Encryptor::encrypt(QString string)
     */
 
 
-    qDebug() <<"Encrypting " << string << "...";
+    //qDebug() <<"Encrypting " << string << "...";
     // copy public key file to temp dir
     QFile pubkey(":/r/coot_pro.asc");
 
     tempPath = QDir::tempPath();
-    qDebug()<<"Temp path:" << tempPath;
+    //qDebug()<<"Temp path:" << tempPath;
 
     QFile::copy(":/r/pubring.gpg",tempPath+"/pubring.gpg");
 

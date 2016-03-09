@@ -25,14 +25,34 @@ void IntroPage::pgpFound(bool wasFound, QString status)
 {
     pgpWasFound = wasFound;
     if (pgpWasFound) {
-        label->setText("<p>Hi "
-                       + whitelist->getUsername().split(" ").first()
-                       +",</p>"
-                        "<p>This tool analyses your Facebook messages. Only data that you've already agreed to send to us in your consent form will be extracted by it."
-                        " It will take about 20 minutes to use, though you can go off and do something else while it processes the data.</p> "
-                      "<p>Thanks again for agreeing to take part in the Child of our Time social media experiment!</p>"
-                        "<br/><p>The CooT team</p> "
-                        "");
+        if (whitelist->getIsFullVersion()) {
+            label->setText("<p>Hi "
+                           + whitelist->getUsername().split(" ").first()
+                           +",</p>"
+                            "<p>As you know, during the week of your phone trial, we gathered all the Facebook messages from you and your Whitelisted contacts."
+                            " Unfortunately, although the messages themselves came through fine, the times and dates were mixed up, making them invalid for the experiment.</p>"
+                          "<p>This tool is going to gather those same messages (and ONLY those messages) again, to complete the experiment.</p>"
+                          "<p>As a bonus, if you choose this tool can also work out the number of messages you sent and received in the whole of 2015."
+                            " We tested it on our production team, and the record to beat is 6,075 sent messages!</p>"
+                          "<p>Thanks again for taking part in the Child of Our Time social media experiment!</p>"
+                            "<br/><p>The CoOT team</p> "
+                            "");
+        } else {
+            label->setText("<p>Hi "
+                           + whitelist->getUsername().split(" ").first()
+                           +",</p>"
+                            "<p>As you know, during the week of your phone trial, the app counted the number of messages you sent and received,"
+                            " and what time of day you sent and received them. (We did not collect any of the message content, just the total numbers.) </p>"
+                          "<p>Unfortunately, the times and dates were mixed up, making them invalid for the experiment.</p>"
+                          "<p>This tool is going to count those same messages again, to complete the experiment."
+                            " (Once again, we will not collect any of the message content, just the total numbers.)</p>"
+                          "<p>As a bonus, if you choose this tool can also work out the number of messages you sent and received in the whole of 2015."
+                            " We tested it on our production team, and the record to beat is 6,075 sent messages!</p>"
+                          "<p>Thanks again for taking part in the Child of Our Time social media experiment!</p>"
+                            "<br/><p>The CoOT team</p> "
+                            "");
+        }
+
     } else {
 
         label->setText("Error: we couldn't find an installation of GnuPG.<br /><br /> It's needed to encrypt your data. Install GnuPG and then run this app again. If you're still having problem, please email the text below to us and we'll look into it.");

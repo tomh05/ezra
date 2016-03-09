@@ -7,12 +7,13 @@
 #include <messagesparser.h>
 #include <QDebug>
 #include <QProgressBar>
+#include "whitelist.h"
 
 class ParsePage : public QWizardPage
 {
     Q_OBJECT
 public:
-    ParsePage();
+    ParsePage(Whitelist * wl);
 
 public slots:
     void updateStatus(QString status,int percent,int subPercent);
