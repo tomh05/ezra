@@ -77,8 +77,8 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif ALEX
     username = "Alex Lloyd Young";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-01-29 00:00:00";
+    endDateString = "2016-02-08 23:59:59";
     whitelist.append("Alastair Young");
     whitelist.append("Berenice Lloyd");
     whitelist.append("Ivo Lloyd Young");
@@ -87,6 +87,7 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     whitelist.append("James Ross");
     whitelist.append("Ethan Brodie");
 
+    // Another tricky one...
 #elif IVO
     username = "Ivo Lloyd Young";
     isFullVersion = true;
@@ -115,14 +116,13 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif ALICE
     username = "Alice Baller";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-02-05 00:00:00";
+    endDateString = "2016-02-16 23:59:59";
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Mabel Baller");
-    whitelist.append("Phoebe Baller");
     whitelist.append("Phoebe Emily Baller");
-    whitelist.append("Hayley Nurten");
+    whitelist.append("Hayley Nurthen");
     whitelist.append("Amy Crumpton");
     whitelist.append("Jack Hughes");
     whitelist.append("Mia Biddle");
@@ -131,10 +131,10 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 
 
 #elif PHOEBE
-    username = "Phoebe Baller";
+    username = "Phoebe Emily Baller";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-02-05 00:00:00";
+    endDateString = "2016-02-16 23:59:59";
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Alice Baller");
@@ -145,10 +145,10 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     whitelist.append("Seranna Barnett");
 
 #elif CHARLOTTE
-    username = "Charlotte ????";
+    username = "Charlotte Langeveld";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-02-19 00:00:00";
+    endDateString = "2016-02-29 23:59:59";
     whitelist.append("Jacqui Pritchard");
     whitelist.append("Richard J Langeveld");
     whitelist.append("Annie Sinclair");
@@ -156,10 +156,10 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     whitelist.append("Katie Salisbury");
 
 #elif REBECCA
-    username = "REBECCA ????";
+    username = "Rebecca Saunders";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-02-27 00:00:00";
+    endDateString = "2016-03-07 23:59:59";
     whitelist.append("Alex Rappoport");
     whitelist.append("Gill Saunders");
     whitelist.append("Ellie Palmer");
@@ -171,32 +171,70 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif MABEL
     username = "Mabel Baller";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-02-26 00:00:00";
+    endDateString = "2016-03-15 23:59:59";
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Alice Baller");
-    whitelist.append("Phoebe Baller");
+    whitelist.append("Phoebe Emily Baller");
     whitelist.append("Hayley Nurthen");
 
 #elif HET
-    username = "Het ????";
+    // SURE ABOUT DATES??
+    username = "Het Shah";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-03-04 00:00:00";
+    endDateString = "2016-03-07 23:59:59";
     whitelist.append("Shikha Parekh");
     whitelist.append("Nisha Moktan");
     whitelist.append("Lekha Bhagat");
     whitelist.append("Jasmina Hamdona");
     whitelist.append("Chandni Savjani");
-    //whitelist.append("Tejal Shah"); // is this used??
-    //whitelist.append("Vijay Shah"); // is this used??
+    whitelist.append("Tejal Shah");
+    whitelist.append("Vijay Shah");
+    whitelist.append("Courtney New");
+
+
+#elif MATT
+    username = "Matt Singleton";
+    isFullVersion = true;
+    startDateString = "2016-01-22 00:00:00";
+    endDateString = "2016-02-01 23:59:59";
+    whitelist.append("Kathryn Singleton");
+    whitelist.append("Graham Singleton");
+    whitelist.append("Joe Piggott");
+    whitelist.append("Joe Mountstephen");
+    whitelist.append("Sammy Bear");
+    whitelist.append("Robert Singleton");
+    whitelist.append("Ethan Hilsley");
+    whitelist.append("Harry Starkie");
+    whitelist.append("Theo Barkway");
 
 #elif NATHAN
-    username = "Nathan ???";
+    username = "Nathan Price";
     isFullVersion = false;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+    startDateString = "2016-01-22 00:00:00";
+    endDateString = "2016-02-01 23:59:59";
+
+#elif TALIESIN
+    username = "Taliesin Stevenson";
+    isFullVersion = false;
+    startDateString = "2016-01-29 00:00:00";
+    endDateString = "2016-02-08 23:59:59";
+
+#elif RHIANNA
+    username = "Rhianna Lees";
+    isFullVersion = false;
+    startDateString = "2016-02-27 00:00:00";
+    endDateString = "2016-03-07 23:59:59";
+
+// Will will be a tricky one to do!
+
+#elif JAMIE
+    username = "Jamie Craven";
+    isFullVersion = false;
+    startDateString = "2016-02-19 00:00:00";
+    endDateString = "2016-03-15 23:59:59";
 
 #elif ETHAN
     username = "Ethan Kerr";
