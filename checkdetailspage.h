@@ -5,6 +5,7 @@
 #include <QGridLayout>
 #include <QWizardPage>
 #include <QLineEdit>
+#include <QTextEdit>
 #include "whitelist.h"
 #include <QLabel>
 #include <QListWidget>

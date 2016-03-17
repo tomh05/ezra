@@ -43,7 +43,7 @@ HEADERS  += \
     checkdetailspage.h
 
 
-DEFINES += MEGAN
+DEFINES += TOM
 
 QT += webkit webkitwidgets
 

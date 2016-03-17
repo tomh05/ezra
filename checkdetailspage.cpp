@@ -18,17 +18,30 @@ CheckDetailsPage::CheckDetailsPage(Whitelist * whitelist)
     usernameEdit->setReadOnly(true);
     layout->addWidget(usernameEdit,1,1);
 
-    QLabel *startLabel = new QLabel("Experiment start:");
-    layout->addWidget(startLabel,2,0);
-    QLineEdit * startEdit = new QLineEdit(whitelist->getStartDate().toString("dddd dd MMMM yyyy"));
-    startEdit->setReadOnly(true);
-    layout->addWidget(startEdit,2,1);
+    QLabel *datesLabel = new QLabel("Experiment dates:");
+    layout->addWidget(datesLabel,2,0);
+    QString datesString = "";
+    for (int i = 0; i<whitelist->getStartDates().size(); i++)
+    {
+            datesString += whitelist->getStartDates().at(i).toString("dddd dd MMMM yyyy");
+            datesString += " to ";
+            datesString += whitelist->getEndDates().at(i).toString("dddd dd MMMM yyyy");
+            if (i < whitelist->getStartDates().size()-1) {
+            datesString += ", and ";
+            }
+    }
 
+    QTextEdit * datesText = new QTextEdit(datesString);
+    datesText->setReadOnly(true);
+    layout->addWidget(datesText,2,1);
+
+    /*
     QLabel *endLabel = new QLabel("Experiment end:");
     layout->addWidget(endLabel,3,0);
     QLineEdit * endEdit = new QLineEdit(whitelist->getEndDate().toString("dddd dd MMMM yyyy"));
     endEdit->setReadOnly(true);
     layout->addWidget(endEdit,3,1);
+    */
 
 
     if (whitelist->getIsFullVersion()) {

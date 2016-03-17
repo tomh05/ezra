@@ -3,13 +3,23 @@
 Whitelist::Whitelist(QObject *parent) : QObject(parent)
 {
     QString format = "yyyy-MM-dd hh:mm:ss";
-    QString startDateString, endDateString;
+    QString startDateString = "";
+    QString startDate2String = "";
+    QString startDate3String = "";
+    QString endDateString = "";
+    QString endDate2String = "";
+    QString endDate3String = "";
 
 #ifdef TOM
     username = "Tom Howe";
     isFullVersion = true;
     startDateString = "2016-01-01 00:00:00";
     endDateString = "2016-02-01 23:59:59";
+    startDates.append(QDateTime::fromString("2016-01-01 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-01-09 23:59:59",format));
+    startDates.append(QDateTime::fromString("2016-02-15 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-20 23:59:59",format));
+
     whitelist.append("Sam Bason");
     whitelist.append("Peter Taylour");
     qDebug()<<"Tom selected";
@@ -61,8 +71,13 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif MEGAN
     username = "Megan Davies";
     isFullVersion = true;
-    startDateString = "2016-01-15 00:00:00";
-    endDateString = "2016-01-25 23:59:59";
+
+
+    startDates.append(QDateTime::fromString("2016-01-15 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-01-25 23:59:59",format));
+
+    //startDateString = "2016-01-15 00:00:00";
+    //endDateString = "2016-01-25 23:59:59";
     whitelist.append("Rhys Davies");
     whitelist.append("Dell Davies");
     whitelist.append("Angharad Annie Evans");
@@ -253,8 +268,14 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #endif
 
 
+    /*
     startDate = QDateTime::fromString(startDateString,format);
     endDate = QDateTime::fromString(endDateString,format);
+    startDate2 = QDateTime::fromString(startDate2String,format);
+    endDate2 = QDateTime::fromString(endDate2String,format);
+    startDate3 = QDateTime::fromString(startDate3String,format);
+    endDate3 = QDateTime::fromString(endDate3String,format);
+    */
 
 }
 
@@ -280,14 +301,14 @@ QString Whitelist::getUsername() const
     return username;
 }
 
-QDateTime Whitelist::getStartDate() const
+QList<QDateTime> Whitelist::getStartDates() const
 {
-    return startDate;
+    return startDates;
 }
 
-QDateTime Whitelist::getEndDate() const
+QList<QDateTime> Whitelist::getEndDates() const
 {
-    return endDate;
+    return endDates;
 }
 
 bool Whitelist::getIsFullVersion() const

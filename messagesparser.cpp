@@ -29,12 +29,12 @@ void MessagesParser::parseFile(QString filename, Whitelist* _whitelist, bool _co
         whitelist = _whitelist;
         sentMessages = 0;
         receivedMessages = 0;
-        minDateTime = whitelist->getStartDate();
-        maxDateTime = whitelist->getEndDate();
+        //minDateTime = whitelist->getStartDate();
+        //maxDateTime = whitelist->getEndDate();
         startYear = QDateTime::fromString("2015-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
         endYear = QDateTime::fromString("2016-01-01 00:00:00","yyyy-MM-dd hh:mm:ss");
-        qDebug()<<minDateTime.toString("dd-MM-yy hh:mm:ss");
-        qDebug()<<maxDateTime.toString("dd-MM-yy hh:mm:ss");
+        //qDebug()<<minDateTime.toString("dd-MM-yy hh:mm:ss");
+        //qDebug()<<maxDateTime.toString("dd-MM-yy hh:mm:ss");
 
         /*
     QFile messagesFile(filename);
@@ -174,12 +174,16 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
 
                 }
         } else {
-                if (dateTime<whitelist->getStartDate()) return FINISHED_THREAD;
-                //qDebug()<<"returning"<<dateTime;
+                if (isBeforeEarliestDate(dateTime)){
+
+                qDebug()<<"returning as before earliest date "<<dateTime;
+
+                    return FINISHED_THREAD;
+                }
         }
 
 
-        if (dateTime > whitelist->getStartDate() && dateTime < whitelist->getEndDate()) {
+        if (isWithinDateRanges(dateTime)) {
                 QString messageContent = "";
                 QWebElement nextSib = message.nextSibling();
                 while (nextSib.localName() == "p") {
@@ -188,7 +192,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 }
 
                 QString formattedDT = dateTime.toString("dd-MM-yy hh:mm:ss");
-                //qDebug() << formattedDT << ": " << user <<": " << messageContent;
+                qDebug() << formattedDT << ": " << user <<": " << messageContent;
 
 
                 QJsonObject jsonMessage;
@@ -222,7 +226,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 return GOT_MESSAGE;
 
         } else {
-                //qDebug() <<dateTime.toString("dd-MM-yy hh:mm:ss") << "outside range" << minDateTime.toString("dd-MM-yy hh:mm:ss")  <<" and "<<maxDateTime.toString("dd-MM-yy hh:mm:ss") ;
+                qDebug() <<dateTime.toString("dd-MM-yy hh:mm:ss") << "outside range" << minDateTime.toString("dd-MM-yy hh:mm:ss")  <<" and "<<maxDateTime.toString("dd-MM-yy hh:mm:ss") ;
 
         }
         return NO_MESSAGE;
@@ -250,6 +254,24 @@ bool MessagesParser::isOnWhitelist(QString candidate) {
         bool result = whitelist->searchFor(candidate);
         qDebug()<<"Checking whitelist for " << candidate << result;
         return result;
+}
+
+bool MessagesParser::isWithinDateRanges(QDateTime candiDate)
+{
+        for (int i = 0; i<whitelist->getStartDates().size(); i++)
+        {
+                if (candiDate > whitelist->getStartDates().at(i) && candiDate < whitelist->getEndDates().at(i)) return true;
+        }
+        return false;
+}
+
+bool MessagesParser::isBeforeEarliestDate(QDateTime candiDate)
+{
+        for (int i = 0; i<whitelist->getStartDates().size(); i++)
+        {
+                if (candiDate > whitelist->getStartDates().at(i)) return false;
+        }
+        return true;
 }
 
 

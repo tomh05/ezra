@@ -41,6 +41,8 @@ private:
     QJsonArray processThread(QWebElement thread);
     int processMessage(QWebElement message, QJsonArray &jsonMessages);
     bool isOnWhitelist(QString candidate);
+    bool isWithinDateRanges(QDateTime candiDate);
+    bool isBeforeEarliestDate(QDateTime candiDate);
     QString hash(QString input);
     QString obfuscate(QString input);
     QDateTime parseDate(QString dateTimeString);
