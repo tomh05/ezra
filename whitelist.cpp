@@ -133,10 +133,14 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     isFullVersion = true;
     startDateString = "2016-02-05 00:00:00";
     endDateString = "2016-02-16 23:59:59";
+
+    startDates.append(QDateTime::fromString("2016-02-05 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-16 23:59:59",format));
+
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Mabel Baller");
-    whitelist.append("Phoebe Emily Baller");
+    whitelist.append("Phoebe-Emily Baller");
     whitelist.append("Hayley Nurthen");
     whitelist.append("Amy Crumpton");
     whitelist.append("Jack Hughes");
@@ -146,10 +150,14 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 
 
 #elif PHOEBE
-    username = "Phoebe Emily Baller";
+    username = "Phoebe-Emily Baller";
     isFullVersion = true;
     startDateString = "2016-02-05 00:00:00";
     endDateString = "2016-02-16 23:59:59";
+
+    startDates.append(QDateTime::fromString("2016-02-05 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-16 23:59:59",format));
+
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Alice Baller");
@@ -188,6 +196,10 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     isFullVersion = true;
     startDateString = "2016-02-26 00:00:00";
     endDateString = "2016-03-15 23:59:59";
+
+    startDates.append(QDateTime::fromString("2016-02-26 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-15 23:59:59",format));
+
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Alice Baller");
@@ -198,8 +210,9 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     // SURE ABOUT DATES??
     username = "Het Shah";
     isFullVersion = true;
-    startDateString = "2016-03-04 00:00:00";
-    endDateString = "2016-03-07 23:59:59";
+    startDates.append(QDateTime::fromString("2016-03-04 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-15 23:59:59",format));
+
     whitelist.append("Shikha Parekh");
     whitelist.append("Nisha Moktan");
     whitelist.append("Lekha Bhagat");
@@ -244,6 +257,18 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     endDateString = "2016-03-07 23:59:59";
 
 // Will will be a tricky one to do!
+
+#elif WILL
+    username = "Will Roberts";
+    isFullVersion = false;
+
+    startDates.append(QDateTime::fromString("2016-02-05 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-16 23:59:59",format));
+
+    startDates.append(QDateTime::fromString("2016-02-26 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-15 23:59:59",format));
+
+
 
 #elif JAMIE
     username = "Jamie Craven";
