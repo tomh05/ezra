@@ -5,20 +5,80 @@ MessagesParser::MessagesParser(QObject *parent) : QObject(parent)
 
 
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC'");
+    dateTimeOffsets.append(0);
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+01'");
+    dateTimeOffsets.append(1);
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC'");
+    dateTimeOffsets.append(0);
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+01'");
+    dateTimeOffsets.append(1);
 
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'h:mmap 'UTC'");
+    dateTimeOffsets.append(0);
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'h:mmap 'UTC+01'");
+    dateTimeOffsets.append(1);
 
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'h:mmap 'UTC'");
+    dateTimeOffsets.append(0);
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'h:mmap 'UTC+01'");
+    dateTimeOffsets.append(1);
 
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-01'");
+    dateTimeOffsets.append(-1);
     dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+02'");
+    dateTimeOffsets.append(2);
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-01'");
+    dateTimeOffsets.append(-1);
     dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+02'");
+    dateTimeOffsets.append(2);
+
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-02'");
+    dateTimeOffsets.append(-2);
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+03'");
+    dateTimeOffsets.append(3);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-02'");
+    dateTimeOffsets.append(-2);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+03'");
+    dateTimeOffsets.append(3);
+
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-03'");
+    dateTimeOffsets.append(-3);
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+04'");
+    dateTimeOffsets.append(4);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-03'");
+    dateTimeOffsets.append(-3);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+04'");
+    dateTimeOffsets.append(4);
+
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-04'");
+    dateTimeOffsets.append(-4);
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+05'");
+    dateTimeOffsets.append(5);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-04'");
+    dateTimeOffsets.append(-4);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+05'");
+    dateTimeOffsets.append(5);
+
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-05'");
+    dateTimeOffsets.append(-5);
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+06'");
+    dateTimeOffsets.append(6);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-05'");
+    dateTimeOffsets.append(-5);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+06'");
+    dateTimeOffsets.append(6);
+
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC-06'");
+    dateTimeOffsets.append(-6);
+    dateTimeFormats.append("dddd, d MMMM yyyy' at 'hh:mm 'UTC+07'");
+    dateTimeOffsets.append(7);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC-06'");
+    dateTimeOffsets.append(-6);
+    dateTimeFormats.append("dddd, MMMM d, yyyy' at 'hh:mm 'UTC+07'");
+    dateTimeOffsets.append(7);
+
+
+
 }
 
 
@@ -176,7 +236,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
         } else {
                 if (isBeforeEarliestDate(dateTime)){
 
-                qDebug()<<"returning as before earliest date "<<dateTime;
+                //qDebug()<<"returning as before earliest date "<<dateTime;
 
                     return FINISHED_THREAD;
                 }
@@ -192,7 +252,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 }
 
                 QString formattedDT = dateTime.toString("dd-MM-yy hh:mm:ss");
-                qDebug() << formattedDT << ": " << user <<": " << messageContent;
+                //qDebug() << formattedDT << ": " << user <<": " << messageContent;
 
 
                 QJsonObject jsonMessage;
@@ -226,7 +286,7 @@ int MessagesParser::processMessage(QWebElement message,QJsonArray& jsonMessages)
                 return GOT_MESSAGE;
 
         } else {
-                qDebug() <<dateTime.toString("dd-MM-yy hh:mm:ss") << "outside range" << minDateTime.toString("dd-MM-yy hh:mm:ss")  <<" and "<<maxDateTime.toString("dd-MM-yy hh:mm:ss") ;
+                //qDebug() <<dateTime.toString("dd-MM-yy hh:mm:ss") << "outside range" << minDateTime.toString("dd-MM-yy hh:mm:ss")  <<" and "<<maxDateTime.toString("dd-MM-yy hh:mm:ss") ;
 
         }
         return NO_MESSAGE;
@@ -277,11 +337,10 @@ bool MessagesParser::isBeforeEarliestDate(QDateTime candiDate)
 
 QDateTime MessagesParser::parseDate(QString dateTimeString) {
         QDateTime dateTime;
-
-        foreach(const QString &format,dateTimeFormats) {
-                dateTime = QDateTime::fromString(dateTimeString,format);
+        for ( int i=0; i< dateTimeFormats.length(); i++) {
+                dateTime = QDateTime::fromString(dateTimeString,dateTimeFormats.at(i)).addSecs(-3600*dateTimeOffsets.at(i));
                 if (dateTime.isValid()) {
-                    return dateTime;
+                        return dateTime;
                 }
         }
 

@@ -47,6 +47,7 @@ private:
     QString obfuscate(QString input);
     QDateTime parseDate(QString dateTimeString);
     QStringList dateTimeFormats;
+    QList<int> dateTimeOffsets;
 
 
     enum {GOT_MESSAGE, NO_MESSAGE, FINISHED_THREAD};
