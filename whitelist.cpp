@@ -92,8 +92,9 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif ALEX
     username = "Alex Lloyd Young";
     isFullVersion = true;
-    startDateString = "2016-01-29 00:00:00";
-    endDateString = "2016-02-08 23:59:59";
+    startDates.append(QDateTime::fromString("2016-01-29 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-08 23:59:59",format));
+
     whitelist.append("Alastair Young");
     whitelist.append("Berenice Lloyd");
     whitelist.append("Ivo Lloyd Young");
@@ -106,8 +107,21 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif IVO
     username = "Ivo Lloyd Young";
     isFullVersion = true;
-    startDateString = "2016-02-01 00:00:00";
-    endDateString = "2016-02-10 23:59:59";
+
+    startDates.append(QDateTime::fromString("2016-01-29 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-08 23:59:59",format));
+
+    startDates.append(QDateTime::fromString("2016-02-19 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-24 23:59:59",format));
+
+    startDates.append(QDateTime::fromString("2016-02-26 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-07 23:59:59",format));
+
+
+
+
+
+
     whitelist.append("Alastair Young");
     whitelist.append("Berenice Lloyd");
     whitelist.append("Alex Lloyd Young");
@@ -199,7 +213,10 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     username = "Het Shah";
     isFullVersion = true;
     startDateString = "2016-03-04 00:00:00";
-    endDateString = "2016-03-07 23:59:59";
+    endDateString = "2016-03-15 23:59:59";
+    startDates.append(QDateTime::fromString("2016-03-04 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-15 23:59:59",format));
+
     whitelist.append("Shikha Parekh");
     whitelist.append("Nisha Moktan");
     whitelist.append("Lekha Bhagat");
@@ -242,14 +259,17 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     isFullVersion = false;
     startDateString = "2016-02-27 00:00:00";
     endDateString = "2016-03-07 23:59:59";
+    startDates.append(QDateTime::fromString("2016-02-27 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-07 23:59:59",format));
 
 // Will will be a tricky one to do!
 
 #elif JAMIE
     username = "Jamie Craven";
     isFullVersion = false;
-    startDateString = "2016-02-19 00:00:00";
-    endDateString = "2016-03-15 23:59:59";
+    startDates.append(QDateTime::fromString("2016-02-19 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-03-15 23:59:59",format));
+
 
 #elif ETHAN
     username = "Ethan Kerr";
