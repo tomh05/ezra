@@ -121,7 +121,7 @@ void MessagesParser::onLoadFinished(bool status) {
 
         qApp->processEvents();
         QWebElement docEl = frame->documentElement();
-        QWebElementCollection threads = docEl.findAll("div.contents div.thread");
+        QWebElementCollection threads = docEl.findAll("div.thread");
         qDebug()<< threads.count() << " threads found.";
 
 
