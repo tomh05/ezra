@@ -255,8 +255,9 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
 #elif NATHAN
     username = "Nathan Price";
     isFullVersion = false;
-    startDateString = "2016-01-22 00:00:00";
-    endDateString = "2016-02-01 23:59:59";
+    startDates.append(QDateTime::fromString("2016-01-22 00:00:00",format));
+    endDates.append(QDateTime::fromString("2016-02-01 23:59:59",format));
+
 
 #elif TALIESIN
     username = "Taliesin Stevenson";

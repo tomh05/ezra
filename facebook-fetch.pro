@@ -43,7 +43,7 @@ HEADERS  += \
     checkdetailspage.h
 
 
-DEFINES += MABEL
+DEFINES += NATHAN
 
 QT += webkit webkitwidgets
 

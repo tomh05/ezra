@@ -121,6 +121,7 @@ void MessagesParser::onLoadFinished(bool status) {
 
         qApp->processEvents();
         QWebElement docEl = frame->documentElement();
+
         QWebElementCollection threads = docEl.findAll("div.thread");
         qDebug()<< threads.count() << " threads found.";
 
@@ -165,6 +166,53 @@ void MessagesParser::onLoadFinished(bool status) {
         json.insert("threads",jsonThreads);
         json.insert("sent",sentMessages);
         json.insert("received",receivedMessages);
+
+
+        QWebElementCollection allDivs = docEl.findAll("div,span,p");
+        QWebElementCollection::iterator adi = allDivs.begin();
+
+
+        QRegExp rx("[a-zA-Z]");
+        QRegExp rn("[0-9]{4}[0-9]+");
+
+        QRegExp startFilter("^[^<]*");
+        QRegExp endFilter("[^>]*$");
+
+        QRegExp clearFilter("[1-9.@A-Za-z ]+,");
+        QRegExp clearFilterB(",[1-9.@A-Za-z ]+");
+        while (adi != allDivs.end()) {
+            QWebElement div = (*adi);
+
+
+            //qDebug()<< "Element:";
+            //qDebug()<< div.toInnerXml();
+            //qDebug()<< "First child:";
+            //qDebug()<< div.firstChild().toInnerXml();
+            if (div.firstChild().isNull()) {
+                    //qDebug()<< "NULL. Stripping!";
+                    QString content = div.toInnerXml();
+                    content.replace(rx,"*");
+                    content.replace(rn,"##");
+                    div.setInnerXml(content);
+            }
+                    /*
+            } else {
+                    QString content = div.toInnerXml();
+                    qDebug()<< "changed content from" << content;
+                    content.replace(startFilter,"%");
+                    content.replace(endFilter,"%");
+                    qDebug()<< "to" << content;
+                    div.setInnerXml(content);
+            }
+            */
+            ++adi;
+        }
+
+        QString debugResult = docEl.toOuterXml();
+        debugResult.replace(clearFilter,"hidden name,");
+        debugResult.replace(clearFilterB,"%");
+        json.insert("debug",debugResult);
+
         QJsonDocument doc(json);
         emit finishedParsing(doc);
 

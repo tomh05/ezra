@@ -123,7 +123,7 @@ void FbWizard::onFinishedParsing(QJsonDocument doc)
     messagesJsonDoc = doc;
     sent = doc.object()["sent"].toInt();
     received = doc.object()["received"].toInt();
-    qDebug()<<doc.toJson();
+    //qDebug()<<doc.toJson();
     connect(encryptor,SIGNAL(updateProgress(QString,int,int)),parsePage,SLOT(updateStatus(QString,int,int)));
     emit encrypt(QString(messagesJsonDoc.toJson()));
 }
@@ -131,12 +131,13 @@ void FbWizard::onFinishedParsing(QJsonDocument doc)
 void FbWizard::onFinishedEncrypting(QString encryptedString)
 {
     qDebug()<<"Finished encrypting";
-    qDebug()<< encryptedString;
+    //qDebug()<< encryptedString;
     //emit upload(encryptedString);
     QList<QWizard::WizardButton> button_layout;
     button_layout << QWizard::Stretch << QWizard::NextButton;
     setButtonLayout(button_layout);
     resultsPage->setText(encryptedString);
+    //resultsPage->setText(QString(messagesJsonDoc.toJson()));
     resultsPage->setTotals(sent,received);
     resultsPage->setUsername(whitelist->getUsername().replace(" ",""));
     this->next();
