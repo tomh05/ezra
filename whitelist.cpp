@@ -217,7 +217,7 @@ Whitelist::Whitelist(QObject *parent) : QObject(parent)
     whitelist.append("Tracey Baller");
     whitelist.append("Nigel Baller");
     whitelist.append("Alice Baller");
-    whitelist.append("Phoebe Emily Baller");
+    whitelist.append("Phoebe-Emily Baller");
     whitelist.append("Hayley Nurthen");
 
 #elif HET
